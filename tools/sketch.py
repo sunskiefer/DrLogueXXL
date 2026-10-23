@@ -59,8 +59,8 @@ def panel():
 
 
 def wood_cheeks(img):
-    src = Image.open(os.path.join(ART, "source", "panel_full.jpg")).convert("RGB")
-    cheek = src.crop((7, 12, 33, 664))                       # the left wood end, without the panel edge
+    # the left wood end of the machine, cut from the user's photo (art/source/panel_full.jpg, x 7..33, y 12..664)
+    cheek = Image.open(os.path.join(ART, "wood_cheek.png")).convert("RGB")
     cheek = cheek.resize((P(WOOD), H * S), Image.LANCZOS)
     cheek = cheek.filter(ImageFilter.UnsharpMask(2, 60, 2))
     cheek = cheek.point(lambda v: min(255, int(v * 1.9 + 6)))   # lift the dark ash so its grain reads on screen
