@@ -29,10 +29,14 @@ DRUMLOGUE_ALWAYS_INLINE float fast_pow2(float x) {
   if (x < -8.0f) return 0.00390625f;  // 2^-8
   if (x > 8.0f) return 256.0f;        // 2^8
 
+  // DrLogueXXL: the recursion (always_inline calling itself, which some compilers refuse) unrolled; same values
+  float scale = 1.0f;
   if (x >= 4.0f) {
-    return 16.0f * fast_pow2(x - 4.0f);
+    x -= 4.0f; scale = 16.0f;
+    if (x >= 4.0f) { x -= 4.0f; scale = 256.0f; }
   } else if (x <= -4.0f) {
-    return fast_pow2(x + 4.0f) * 0.0625f;
+    x += 4.0f; scale = 0.0625f;
+    if (x <= -4.0f) { x += 4.0f; scale = 0.00390625f; }
   }
 
   const float c1 = 0.693147181f;  // ln(2)
@@ -40,7 +44,7 @@ DRUMLOGUE_ALWAYS_INLINE float fast_pow2(float x) {
   const float c3 = 0.055504109f;  // ln(2)^3 / 3!
   const float c4 = 0.009618129f;  // ln(2)^4 / 4!
 
-  return 1.0f + x * (c1 + x * (c2 + x * (c3 + x * c4)));
+  return scale * (1.0f + x * (c1 + x * (c2 + x * (c3 + x * c4))));
 }
 
 // Fast cents to ratio: 2^(cents/1200)

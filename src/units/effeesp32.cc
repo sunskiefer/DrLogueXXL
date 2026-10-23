@@ -91,9 +91,10 @@ class Unit : public dlx::SynthUnit {
     v.setVeloMod(working_.veloMod);
     v.setPan(working_.pan);
     v.setFilterActive(working_.useFilter != 0);
-    // pitch: the instrument's base frequency, moved by Pitch and by the distance of the note from the instrument's
-    // own trigger note (so a pad hit plays the patch as designed and chromatic notes transpose it)
-    float semis = (float)params_[P_PITCH] + ((int)note - params_[P_NOTE]);
+    // pitch: the instrument's base frequency, moved by Pitch and by the note's distance from C4 (60, the MULTI pad's
+    // default unit note), so a pad hit plays the patch as designed and chromatic notes transpose it. (Upstream the
+    // note only picks the voice; the unit's Note parameter is kept for GateOn, as on the drumlogue.)
+    float semis = (float)params_[P_PITCH] + ((int)note - 60);
     v.setFrequency(working_.baseFreq * exp2f(semis * (1.0f / 12.0f)));
     v.addDetune((float)params_[P_DETUNE]);
     v.addFeedback((params_[P_FEEDBK] * 0.01f - 1.0f) * 3.5f);

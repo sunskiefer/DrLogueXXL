@@ -208,7 +208,7 @@ public:
       if (flags & State::k_flag_bit_crush)
       {
         s.dither = p.bit_crush * 2e-008f;
-        s.bit_res = osc_bitresf(p.bit_crush);
+        s.bit_res = osc_bitresf(p.bit_crush < 0.9999f ? p.bit_crush : 0.9999f);  // DrLogueXXL: 1.0 read past the 129-entry LUT
         s.bit_res_recip = 1.f / s.bit_res;
       }
     }

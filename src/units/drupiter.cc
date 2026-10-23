@@ -48,3 +48,18 @@ class Unit : public dlx::SynthUnit {
 namespace dlx {
 SynthUnit* NewDrupiterUnit() { return new u_drupiter::Unit(); }
 }
+
+// C++11: static constexpr data members the vendored code ODR-uses (passed by reference to std::min/max/clamp)
+// need one out-of-class definition. (C++17 makes them implicitly inline; the unit was built as C++17.)
+namespace u_drupiter {
+namespace dsp {
+constexpr float JupiterEnvelope::kMinAttackTime;
+constexpr float JupiterEnvelope::kMaxAttackTime;
+constexpr float JupiterEnvelope::kMinDecayTime;
+constexpr float JupiterEnvelope::kMaxDecayTime;
+constexpr float JupiterEnvelope::kMinReleaseTime;
+constexpr float JupiterEnvelope::kMaxReleaseTime;
+constexpr float JupiterLFO::kMinFreq;
+constexpr float JupiterLFO::kMaxFreq;
+}  // namespace dsp
+}  // namespace u_drupiter

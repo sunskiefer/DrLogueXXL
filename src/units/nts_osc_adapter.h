@@ -17,7 +17,7 @@
 class NtsOscUnit : public dlx::SynthUnit {
  public:
   NtsOscUnit() {
-    rng_ = 0x2545F491u ^ (uint32_t)(uintptr_t)this;
+    rng_ = 0x2545F491u;   // deterministic: every instance plays the same (but owns its own generator state)
     dlx::NtsOscTablesInit();
     RngScope rs(this);
     osc_ = new (storage_) Osc();          // Osc's constructors may draw noise (Waves' tuning imperfection)

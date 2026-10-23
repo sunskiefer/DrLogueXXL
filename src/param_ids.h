@@ -407,7 +407,7 @@ static const char* const kOpts_COMP_SIDECH[] = {"Off", "On"};
 static const char* const kOpts_MF_MODE[] = {"Thru", "LPF 2", "LPF 4", "BPF 2", "BPF 4", "HPF 2", "HPF 4"};
 static const char* const kOpts_EQ_SLOPE[] = {"12dB", "24dB"};
 static const ParamInfo kParams[P_COUNT] = {
-  {"volume", 0.0, 100.0, 80.0, 0, false, nullptr},
+  {"volume", 0.0, 100.0, 70.0, 0, false, nullptr},
   {"note_map", 0, 2, 0, 3, true, kOpts_NOTE_MAP},
   {"base_note", 0.0, 116.0, 36.0, 0, true, nullptr},
   {"vel_sens", 0.0, 100.0, 70.0, 0, false, nullptr},

@@ -64,7 +64,14 @@ def knob(key, name, lo, hi, default, **kw):
 
 
 def whole(key, name, lo, hi, default, **kw):
-    return knob(key, name, lo, hi, default, display="int", **kw)
+    # Whole numbers. A short range takes the wrapper's "int" stepping (one step per Q-Link event / wheel click). A long
+    # one (notes, sample numbers, the 0-1023 kit knobs) stays continuous for the host: MPC adds 1/128 (Q-Link) or 1/100
+    # (wheel) of the range to the value it reads back, and the engine rounds, so a 0-127 range moves one step per event.
+    p = knob(key, name, lo, hi, default, **kw)
+    if hi - lo < 20:
+        p["display"] = "int"
+    p["whole"] = True
+    return p
 
 
 def opts(key, name, options, default=0, **kw):
@@ -76,7 +83,7 @@ def opts(key, name, options, default=0, **kw):
 P = []
 # ---- global ---------------------------------------------------------------------------------------------------
 P += [
-    knob("volume", "Volume", 0, 100, 80),
+    knob("volume", "Volume", 0, 100, 70),
     opts("note_map", "Note Map", NOTE_MAPS, 0),
     whole("base_note", "Base Note", 0, 116, 36),
     knob("vel_sens", "Velocity", 0, 100, 70),
@@ -115,7 +122,7 @@ def part_sound(k, kind):
                 opts(k + "_drive", "Drive", TOM_DRIVE, 0)]
     if kind == "pcm":
         return [opts(k + "_bank", "Bank", BANKS, g("bank", 4)),
-                whole(k + "_sample", "Sample", 1, 128, g("sample", 1), dynamic_display=True, nudge_pct=2),
+                whole(k + "_sample", "Sample", 1, 128, g("sample", 1)),
                 knob(k + "_tune", "Tune", -24, 24, 0), knob(k + "_attack", "Attack", 0, 100, 0),
                 whole(k + "_decay", "Decay", 0, 1023, g("decay", 1023)),
                 knob(k + "_start", "Start", 0, 100, 0), knob(k + "_end", "End", 0, 100, 100),
@@ -235,7 +242,7 @@ def write():
             h.append('  {"%s", 0, %d, %d, %d, true, %s},' % (p["key"], n - 1, p.get("default", 0), n, lists[p["key"]]))
         else:
             h.append('  {"%s", %r, %r, %r, 0, %s, nullptr},' % (
-                p["key"], p["min"], p["max"], p.get("default", p["min"]), "true" if p.get("display") == "int" else "false"))
+                p["key"], p["min"], p["max"], p.get("default", p["min"]), "true" if p.get("whole") else "false"))
     h.append("};")
     h.append("")
     # per-part blocks: the offset of each mix/sound key relative to the part's first sound key is the same for
