@@ -413,8 +413,8 @@ void JupiterVCF::InitializeLookupTables() {
     if (tables_initialized_) return;
     tables_initialized_ = true;
     
-    // Initialize tanh lookup table if not already done globally
-    if (!s_tables_initialized) {
+    // DrLogueXXL: shared read-only tables filled exactly once, thread-safe (C++11 magic static)
+    static const bool once = [] {
         // Tanh table: 512 entries covering [-4, 4]
         for (int i = 0; i < kTanhTableSize; i++) {
             float x = -4.0f + (8.0f * i) / (kTanhTableSize - 1);
@@ -429,7 +429,9 @@ void JupiterVCF::InitializeLookupTables() {
         }
         
         s_tables_initialized = true;
-    }
+        return true;
+    }();
+    (void)once;
 }
 
 float JupiterVCF::TanhLookup(float x) const {

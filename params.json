@@ -1950,14 +1950,11 @@
    "options": [
     "VPM",
     "NOISE",
+    "EffeESP32",
     "Pluck",
     "Waves",
-    "EffeMD",
-    "EffeESP32",
-    "ScrutaAstri",
     "Elementish",
     "Drupiter",
-    "Pepege",
     "Maxisynth"
    ],
    "default": 0,

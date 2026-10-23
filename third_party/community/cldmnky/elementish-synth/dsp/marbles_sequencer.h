@@ -451,15 +451,15 @@ private:
     }
 
     const Scale* GetCurrentScale() {
-        static Scale chromatic = {kScaleChromatic, 12};
-        static Scale major = {kScaleMajor, 7};
-        static Scale minor = {kScaleMinor, 7};
-        static Scale pentatonic = {kScalePentatonic, 5};
-        static Scale octaves = {kScaleOctaves, 3};
-        static Scale fifths = {kScaleFifths, 4};
-        static Scale fourths = {kScaleFourths, 4};
-        static Scale triad = {kScaleTriad, 4};
-        static Scale seventh = {kScaleSeventh, 5};
+        static const Scale chromatic = {kScaleChromatic, 12};
+        static const Scale major = {kScaleMajor, 7};
+        static const Scale minor = {kScaleMinor, 7};
+        static const Scale pentatonic = {kScalePentatonic, 5};
+        static const Scale octaves = {kScaleOctaves, 3};
+        static const Scale fifths = {kScaleFifths, 4};
+        static const Scale fourths = {kScaleFourths, 4};
+        static const Scale triad = {kScaleTriad, 4};
+        static const Scale seventh = {kScaleSeventh, 5};
         
         switch (preset_) {
             case SEQ_MAJ:

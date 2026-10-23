@@ -409,7 +409,7 @@ public:
                     case 4: // RND (sample & hold random)
                         {
                             // Trigger new random value when phase wraps
-                            static float last_phase = 0.0f;
+                            float& last_phase = lfo_last_phase_;  // DrLogueXXL: was a function static
                             if (lfo_phase_ < last_phase) {
                                 // Phase wrapped, generate new random value
                                 lfo_random_value_ = (float)((lfo_random_state_ = lfo_random_state_ * 1103515245 + 12345) & 0x7FFFFFFF) / (float)0x7FFFFFFF * 2.0f - 1.0f;
@@ -533,7 +533,7 @@ public:
     
         // Elements-style reverb: wet tail is added to one channel and
         // subtracted from the other to create a stereo reverb field.
-        static float wet_buffer[kMaxProcessFrames];
+        float* wet_buffer = wet_buffer_;  // DrLogueXXL: was a function static
         reverb_.Process(dry_buffer_, wet_buffer, frames);
         for (uint32_t i = 0; i < frames; ++i) {
             float spread = 0.2f + space_ * 0.8f;
@@ -638,6 +638,8 @@ private:
     float raw_gain_ = 0.0f;
     float raw_ = 0.0f;    // Raw exciter signal for bleed (Elements space)
     float dry_buffer_[kMaxProcessFrames];
+    float wet_buffer_[kMaxProcessFrames];  // DrLogueXXL
+    float lfo_last_phase_ = 0.0f;           // DrLogueXXL
 #ifndef ELEMENTS_LIGHTWEIGHT
     float filter_cutoff_base_ = 8000.0f;
     float filter_env_amount_ = 0.5f;  // Default filter envelope amount (gives character to plucks)

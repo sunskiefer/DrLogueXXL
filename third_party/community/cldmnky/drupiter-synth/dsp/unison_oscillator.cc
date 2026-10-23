@@ -8,7 +8,7 @@
  */
 
 #include "unison_oscillator.h"
-#include "../common/dsp_utils.h"
+#include "../../common/dsp_utils.h"  // DrLogueXXL: path relative to this file (upstream relied on -I order)
 #include <cmath>
 #include <cstring>
 

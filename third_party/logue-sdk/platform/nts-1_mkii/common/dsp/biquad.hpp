@@ -41,7 +41,7 @@
  *
  */
 
-#include "utils/float_math.h"
+#include "../utils/float_math.h"  // DrLogueXXL: relative to this file
 
 /**
  * Common DSP Utilities

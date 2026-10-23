@@ -39,10 +39,12 @@
 #include <fstream>
 #include <string.h>
 #include <cstdlib>
+#include <limits>
 #include "math.h"
 #include <cmath>
 #include <vector>
 #include <cfloat>
+#include <cstdint>  // DrLogueXXL: uint32_t (maxiBits) without relying on transitive includes
 #include <functional>
 #ifdef _WIN32 //|| _WIN64
 #include <algorithm>

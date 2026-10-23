@@ -205,10 +205,8 @@ class MidiHelper {
    * @param value Value to clamp
    * @return Clamped value (0-127)
    */
-  static constexpr uint8_t ClampMidi(int32_t value) {
-    if (value < 0) return 0;
-    if (value > 127) return 127;
-    return static_cast<uint8_t>(value);
+  static constexpr uint8_t ClampMidi(int32_t value) {  // DrLogueXXL: single return (C++11 constexpr)
+    return value < 0 ? 0 : (value > 127 ? 127 : static_cast<uint8_t>(value));
   }
   
   /**
@@ -234,11 +232,9 @@ class MidiHelper {
    * @param note MIDI note number
    * @return True if black key, false if white key
    */
-  static constexpr bool IsBlackKey(uint8_t note) {
-    const uint8_t pitch_class = note % 12;
+  static constexpr bool IsBlackKey(uint8_t note) {  // DrLogueXXL: single return (C++11 constexpr)
     // Black keys: C#, D#, F#, G#, A# (1, 3, 6, 8, 10)
-    return (pitch_class == 1 || pitch_class == 3 || 
-            pitch_class == 6 || pitch_class == 8 || pitch_class == 10);
+    return (note % 12 == 1 || note % 12 == 3 || note % 12 == 6 || note % 12 == 8 || note % 12 == 10);
   }
   
   /**
@@ -247,11 +243,8 @@ class MidiHelper {
    * @param octave Octave number (C4 is octave 4)
    * @return MIDI note number, or 255 if invalid
    */
-  static constexpr uint8_t NoteFromPitchClass(uint8_t pitch_class, int8_t octave) {
-    if (pitch_class >= 12 || octave < -1 || octave > 9) {
-      return 255;  // Invalid
-    }
-    return (octave + 1) * 12 + pitch_class;
+  static constexpr uint8_t NoteFromPitchClass(uint8_t pitch_class, int8_t octave) {  // DrLogueXXL: C++11
+    return (pitch_class >= 12 || octave < -1 || octave > 9) ? 255 : (octave + 1) * 12 + pitch_class;
   }
 };
 

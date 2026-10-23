@@ -11,12 +11,12 @@
 #include <cstdint>
 #include <algorithm>
 
-#include <arm_neon.h>
+// DrLogueXXL: <arm_neon.h> removed (scalar store below)
 
 #include "unit.h"  // Note: Include common definitions for all units
 
-#include "maximilian.h"
-#include "libs/maxiPolyBLEP.h"
+#include "../Maximilian/src/maximilian.h"          // DrLogueXXL: relative paths (no extra -I)
+#include "../Maximilian/src/libs/maxiPolyBLEP.h"
 
 // Uncomment this line to use maxiEnvGen class
 // #define USE_MAXIENVGEN
@@ -63,7 +63,7 @@ class Synth {
     if (desc->output_channels != 2)  // should be stereo output
       return k_unit_err_geometry;
 
-    maxiSettings::sampleRate = 48000;
+    // DrLogueXXL: maxiSettings::sampleRate (a process-wide static) is 48000 by default in our copy
     oscillator_.setSampleRate(48000);
 #ifdef USE_MAXIENVGEN
     envelope_.setup({0, 1, 1, 1, 0, 0},
@@ -130,7 +130,7 @@ class Synth {
       // Amplifier
       sig = sig * (egAmp_ * env + egAmpRev_ * trigger);
       // Note: should take advantage of NEON ArmV7 instructions
-      vst1_f32(out_p, vdup_n_f32(sig));
+      out_p[0] = sig; out_p[1] = sig;  // DrLogueXXL: was vst1_f32(out_p, vdup_n_f32(sig))
     }
   }
 

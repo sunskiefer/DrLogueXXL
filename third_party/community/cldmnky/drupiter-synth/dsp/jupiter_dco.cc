@@ -120,9 +120,9 @@ JupiterDCO::JupiterDCO()
     , noise_seed2_(0x4A503842) // "JP8B"
     , last_phase_(0.0f)
 {
-    if (!tables_initialized_) {
-        InitWavetables();
-    }
+    // DrLogueXXL: fill the shared read-only tables exactly once, thread-safe (C++11 magic static)
+    static const bool once = (InitWavetables(), true);
+    (void)once;
 }
 
 JupiterDCO::~JupiterDCO() {
@@ -355,7 +355,7 @@ void JupiterDCO::ProcessMultipleOscillators(MultiOscState* states, int num_osc,
                                             float sync_trigger) {
     (void)sync_trigger;
     // Ensure tables are initialized
-    if (!tables_initialized_) {
+    if (false) {
         InitWavetables();
     }
 
@@ -494,8 +494,12 @@ float JupiterDCO::GenerateWaveformForMulti(float phase, float /*phase_inc*/,
             return LookupWavetable(sine_table_, phase);
 
         case WAVEFORM_NOISE:
-            // Simple white noise using phase as seed
-            return (static_cast<float>(rand()) / RAND_MAX) * 2.0f - 1.0f;
+            // DrLogueXXL: rand() (process-global state) replaced by a hash of the phase
+            {
+                uint32_t h = static_cast<uint32_t>(phase * 16777216.0f) * 2654435761u;
+                h ^= h >> 15; h *= 2246822519u; h ^= h >> 13;
+                return static_cast<float>(h >> 8) * (2.0f / 16777216.0f) - 1.0f;
+            }
 
         default:
             return 0.0f;

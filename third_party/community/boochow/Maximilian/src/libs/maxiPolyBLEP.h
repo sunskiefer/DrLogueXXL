@@ -1,3 +1,4 @@
+#pragma once  // DrLogueXXL: include guard added
 //this is a wrapper around Martin Finke's PolyBLEP library
 //https://github.com/martinfinke/PolyBLEP
 
@@ -57,6 +58,16 @@ public:
   /** Change the pulse width (0 <= pw <= 1)*/
   void setPulseWidth(double pw) {
     blep.setPulseWidth(pw);
+  }
+
+  /* Sync modulatoin */
+  void sync(double phase) {
+    blep.sync(phase);
+  }
+
+  /* Set sample rate */
+  void setSampleRate(double sampleRate) {
+    blep.setSampleRate(sampleRate);
   }
 
 private:

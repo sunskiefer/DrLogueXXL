@@ -386,7 +386,7 @@ static const char* const kOpts_SP2_MASTER[] = {"On", "Bypass"};
 static const char* const kOpts_SP2_CHOKE[] = {"Off", "1", "2", "3", "4"};
 static const char* const kOpts_SP2_PRIO[] = {"Low", "Mid", "High"};
 static const char* const kOpts_SP2_MUTE[] = {"Off", "On"};
-static const char* const kOpts_MT_ENGINE[] = {"VPM", "NOISE", "Pluck", "Waves", "EffeMD", "EffeESP32", "ScrutaAstri", "Elementish", "Drupiter", "Pepege", "Maxisynth"};
+static const char* const kOpts_MT_ENGINE[] = {"VPM", "NOISE", "EffeESP32", "Pluck", "Waves", "Elementish", "Drupiter", "Maxisynth"};
 static const char* const kOpts_VPM_PRESET[] = {"Default", "Oct.", "Half", "Fourth", "Air", "Creep", "Throat", "Harsh"};
 static const char* const kOpts_VPM_RATIO[] = {"1/4", "1/2", "3/4", "1x", "2x", "3x", "4x", "5x", "6x", "7x", "8x", "9x", "10x", "11x", "12x", "13x", "14x", "15x", "16x"};
 static const char* const kOpts_VPM_EG[] = {"AR", "ASR", "GATE"};
@@ -624,7 +624,7 @@ static const ParamInfo kParams[P_COUNT] = {
   {"sp2_prio", 0, 2, 1, 3, true, kOpts_SP2_PRIO},
   {"sp2_mute", 0, 1, 0, 2, true, kOpts_SP2_MUTE},
   {"sp2_note", 0.0, 127.0, 56.0, 0, true, nullptr},
-  {"mt_engine", 0, 10, 0, 11, true, kOpts_MT_ENGINE},
+  {"mt_engine", 0, 7, 0, 8, true, kOpts_MT_ENGINE},
   {"mt_unote", 0.0, 127.0, 60.0, 0, true, nullptr},
   {"vpm_preset", 0, 7, 0, 8, true, kOpts_VPM_PRESET},
   {"vpm_note", 0.0, 127.0, 48.0, 0, true, nullptr},
@@ -738,6 +738,6 @@ static const char* const kPartKeys[NUM_PARTS] = {"bd", "sd", "lt", "ht", "ch", "
 static const int kGmNotes[NUM_PARTS] = {36, 38, 45, 50, 42, 46, 37, 39, 49, 56, 60};
 static const int kNumUnitSlots = 24;
 static const int kNumBuiltinEngines = 2;   // VPM, NOISE; units follow
-static const int kNumUnits = 9;
+static const int kNumUnits = 6;
 
 }  // namespace dlx

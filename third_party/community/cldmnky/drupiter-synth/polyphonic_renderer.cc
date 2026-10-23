@@ -47,7 +47,7 @@ struct PolyCache {
     float resonance = -1.0f;        // Cache to avoid redundant SetResonance calls
     int vcf_mode = -1;              // Cache to avoid redundant SetMode calls
 };
-static PolyCache s_poly_cache;
+// DrLogueXXL: the cache lives in each DrupiterSynth (poly_cache_storage_), not in a file static
 
 // Map DCO1 UI parameter value (0-4) to waveform enum
 // DCO1 waveforms: SAW(0), SQR(1), PUL(2), TRI(3), SAW_PWM(4)
@@ -111,6 +111,8 @@ float PolyphonicRenderer::RenderVoices(
     const bool apply_hpf = hpf_alpha > 0.0f;
 
     // Reset caches when a different synth instance owns this renderer state
+    PolyCache& s_poly_cache = *reinterpret_cast<PolyCache*>(synth.poly_cache_storage_);
+    static_assert(sizeof(PolyCache) <= sizeof(synth.poly_cache_storage_), "poly cache storage");
     if (s_poly_cache.owner != static_cast<const void*>(&synth)) {
         s_poly_cache = PolyCache();
         s_poly_cache.owner = &synth;

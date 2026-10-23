@@ -507,8 +507,9 @@ class HubControl {
     
     // Path 2: Numeric values (use cache for ALL numeric)
     const char* safe_unit = (d.value_unit != nullptr) ? d.value_unit : "";
-    const char* const* cached = HubStringCache::GetStrings(
-      d.min, d.max, safe_unit, d.bipolar);
+    // DrLogueXXL: no process-wide lazily filled string cache (shared mutable state between plugin
+    // instances); always format into the caller's buffer below.
+    const char* const* cached = nullptr;
     
     if (cached != nullptr && value >= d.min && value <= d.max) {
       return cached[value - d.min];  // Cached pointer ✓

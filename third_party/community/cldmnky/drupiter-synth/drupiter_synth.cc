@@ -624,7 +624,7 @@ const char* DrupiterSynth::GetParameterStr(uint8_t id, int32_t value) {
     static const char* effect_names[] = {"CHORUS", "SPACE", "DRY", "BOTH"};
     
     // Separate static buffers for each parameter type to avoid race conditions
-    static char tune_buf[16];      // For PARAM_DCO2_TUNE
+    char* tune_buf = tune_buf_;    // DrLogueXXL: per-instance (was a function static)
     
     switch (id) {
         // ======== Page 1: DCO-1 ========
@@ -641,7 +641,7 @@ const char* DrupiterSynth::GetParameterStr(uint8_t id, int32_t value) {
         case PARAM_DCO2_TUNE: {
             // Map 0-100 to -50 to +50 cents
             int32_t cents = value - 50;
-            snprintf(tune_buf, sizeof(tune_buf), "%+d ct", static_cast<int>(cents));
+            snprintf(tune_buf, sizeof(tune_buf_), "%+d ct", static_cast<int>(cents));
             return tune_buf;
         }
         case PARAM_SYNC:

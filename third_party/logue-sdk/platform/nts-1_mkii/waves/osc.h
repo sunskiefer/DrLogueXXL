@@ -44,10 +44,10 @@
 #include <cstddef>
 #include <climits>
 
-#include "processor.h"
-#include "unit_osc.h"
+#include "../common/processor.h"  // DrLogueXXL: relative paths (no extra -I)
+#include "../common/unit_osc.h"
 #include "waves_common.h"
-#include "dsp/biquad.hpp"
+#include "../common/dsp/biquad.hpp"
 
 class Osc : public Processor
 {

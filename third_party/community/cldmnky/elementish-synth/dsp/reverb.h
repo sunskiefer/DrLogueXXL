@@ -155,8 +155,9 @@ private:
 
     // Separate delay lines prevent comb/allpass filters from overwriting each
     // other's feedback state. Total memory is about 36KB.
-    static float comb_buffer_[kCombCount][kMaxCombDelay];
-    static float allpass_buffer_[kAllpassCount][kMaxAllpassDelay];
+    // DrLogueXXL: per-instance delay lines (were static members shared by every instance)
+    float comb_buffer_[kCombCount][kMaxCombDelay];
+    float allpass_buffer_[kAllpassCount][kMaxAllpassDelay];
 
     static const int kCombDelay[kCombCount];
     static const int kAllpassDelay[kAllpassCount];
@@ -177,8 +178,6 @@ private:
 #endif
 };
 
-float Reverb::comb_buffer_[Reverb::kCombCount][Reverb::kMaxCombDelay];
-float Reverb::allpass_buffer_[Reverb::kAllpassCount][Reverb::kMaxAllpassDelay];
 
 // Scaled, non-multiple-of-each-other prime-ish delays (in samples at 48kHz).
 const int Reverb::kCombDelay[Reverb::kCombCount] = {

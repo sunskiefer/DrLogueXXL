@@ -17,7 +17,7 @@
 #endif
 
 #include "unit.h"
-#include "perf_mon.h"
+#include "../common/perf_mon.h"  // DrLogueXXL: relative path (no extra -I)
 #include "modal_synth.h"
 #include "dsp/neon_dsp.h"
 #include "dsp/marbles_sequencer.h"
@@ -174,8 +174,9 @@ public:
     
         // Process audio with static buffers
         static constexpr uint32_t kMaxFrames = 128;
-        static float out_l[kMaxFrames];
-        static float out_r[kMaxFrames];
+        // DrLogueXXL: per-instance buffers (were function statics shared by every instance)
+        float* out_l = render_l_;
+        float* out_r = render_r_;
     
         uint32_t frames_remaining = frames;
         uint32_t out_idx = 0;
@@ -982,6 +983,8 @@ private:
         return ClampedTunedNote(note + coarse_tune_ + fine_tune_ + pitch_bend_);
     }
 
+    float render_l_[128];  // DrLogueXXL: was a function static in Render()
+    float render_r_[128];
     const unit_runtime_desc_t* runtime_desc_;  // Cached for potential future use
     modal::ModalSynth synth_;
     int32_t params_[kNumParams];

@@ -32,8 +32,8 @@
 
 */
 
-#include "processor.h"
-#include "unit_osc.h"
+#include "../common/processor.h"  // DrLogueXXL: relative paths (no extra -I)
+#include "../common/unit_osc.h"
 
 /**
  * @brief karplus-strong waveguide synthesis
@@ -182,7 +182,9 @@ public:
     const Params p = params;
 
     // dispersion: first-order Thiran allpass cascade with loop-delay compensation
-    const auto [a1, dc_delay_samples] = compute_allpass(pitch, p.dispersion);
+    // DrLogueXXL: C++11 (was a C++17 structured binding)
+    const AllpassParams ap = compute_allpass(pitch, p.dispersion);
+    const float a1 = ap.a1, dc_delay_samples = ap.dc_delay_samples;
     dispersion_filter.set_coeff(a1);
 
     const float string_len = compute_string_len_samples(pitch, dc_delay_samples);

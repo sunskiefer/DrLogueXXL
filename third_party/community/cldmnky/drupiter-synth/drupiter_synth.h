@@ -157,6 +157,10 @@ static const char* const kEffectNames[] = {
  */
 class DrupiterSynth {
 public:
+    // DrLogueXXL: per-instance storage for polyphonic_renderer.cc's cache (was a file static)
+    alignas(8) unsigned char poly_cache_storage_[64] = {};
+    char tune_buf_[16] = {};  // DrLogueXXL: GetParameterStr's buffer (was a function static)
+
     /**
      * @brief Parameter IDs matching header.c definitions
      */

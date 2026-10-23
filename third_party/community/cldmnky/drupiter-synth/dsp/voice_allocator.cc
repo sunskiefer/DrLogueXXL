@@ -40,8 +40,7 @@ inline void ClearStereoBuffers(float* left, float* right, uint32_t frames) {
 #endif
 
 // Cached state for performance optimizations
-static float cached_poly_scale = 1.0f;  // Cached RenderPolyphonic scale
-static uint8_t cached_poly_voice_count = 0;  // Cache voice count for scale calculation
+// DrLogueXXL: the file-static poly scale cache was removed (shared between instances)
 
 namespace dsp {
 
@@ -286,10 +285,8 @@ void VoiceAllocator::RenderPolyphonic(float* left, float* right, uint32_t frames
 	}
 	
 	// OPTIMIZATION: Cache scale calculation and only recalculate if voice count changed
-	if (num_active_voices_ != cached_poly_voice_count) {
-		cached_poly_scale = 1.0f / sqrtf(static_cast<float>(num_active_voices_));
-		cached_poly_voice_count = num_active_voices_;
-	}
+	// DrLogueXXL: computed per block instead of cached in file statics shared between instances
+	const float cached_poly_scale = 1.0f / sqrtf(static_cast<float>(num_active_voices_));
 	
 	// Apply cached scale using NEON vectorization when available
 #ifdef USE_NEON

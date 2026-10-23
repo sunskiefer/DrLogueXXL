@@ -54,7 +54,7 @@ float chandiv= 1;
 
 maxiSettings::maxiSettings() {}
 
-size_t maxiSettings::sampleRate = 44100;
+size_t maxiSettings::sampleRate = 48000;  // DrLogueXXL: was 44100; units run at 48 kHz and never write it
 size_t maxiSettings::channels = 2;
 size_t maxiSettings::bufferSize = 1024;
 
@@ -1384,7 +1384,11 @@ double maxiEnv::adsr(double input, double attack, double decay, double sustain, 
 
 	if (decayphase==1) {
 		output=input*(amplitude*=decay);
-		if (amplitude<=sustain) {
+		if (trigger != 1) {
+			holdcount = holdtime;
+			decayphase = 0;
+			holdphase = 1;
+		} else if (amplitude<=sustain) {
 			decayphase=0;
 			holdphase=1;
 		}
@@ -1437,7 +1441,11 @@ double maxiEnv::adsr(double input, int trigger) {
 
 	if (decayphase==1) {
 		output=input*(amplitude*=decay);
-		if (amplitude<=sustain) {
+		if (trigger != 1) {
+			holdcount = holdtime;
+			decayphase = 0;
+			holdphase = 1;
+		} else if (amplitude<=sustain) {
 			decayphase=0;
 			holdphase=1;
 		}

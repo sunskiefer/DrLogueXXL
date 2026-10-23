@@ -48,9 +48,8 @@
 #include "attributes.h"
 #include "utils/float_math.h"
 #include "utils/int_math.h"
-#ifndef __EMSCRIPTEN__
-#include "utils/fixed_math.h"
-#endif
+// DrLogueXXL: fixed_math.h (needs CMSIS cortexm.h) is not used by the vendored units; not included.
+// #include "utils/fixed_math.h"
 
 #ifdef __cplusplus
 extern "C" {
