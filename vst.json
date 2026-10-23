@@ -12,7 +12,13 @@
       "src/dlx_engine.cc",
       "src/parts/bd.cc",
       "src/parts/sd.cc",
-      "src/parts/tom.cc"
+      "src/parts/tom.cc",
+      "src/parts/pcm.cc",
+      "src/rom/sample_rom.cc",
+      "src/rom/synth_util.cc",
+      "src/rom/synth_gen.cc",
+      "src/rom/synth_banks.cc",
+      "src/rom/wav.cc"
     ],
     "cflags": [
       "-Isrc",
