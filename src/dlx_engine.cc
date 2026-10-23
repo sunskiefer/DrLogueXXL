@@ -63,7 +63,8 @@ const int kMixStart[NUM_PARTS] = {P_BD_LEVEL, P_SD_LEVEL, P_LT_LEVEL, P_HT_LEVEL
 struct MixIds { int level, pan, spread, dly, rev, master, sidech, choke, prio, mute, note; };
 
 const char* const kNoteNames[12] = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
-void NoteName(int n, char* buf, int len) { snprintf(buf, len, "%s%d", kNoteNames[n % 12], n / 12 - 1); }
+// note names as MPC shows them: 36 = C1, 60 = C3
+void NoteName(int n, char* buf, int len) { snprintf(buf, len, "%s%d", kNoteNames[n % 12], n / 12 - 2); }
 
 bool EndsWith(const char* s, const char* suffix) {
   size_t a = strlen(s), b = strlen(suffix);

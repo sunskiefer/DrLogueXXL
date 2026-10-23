@@ -2,7 +2,7 @@
   "name": "DrLogueXXL",
   "vendor": "L'Cronx",
   "uid": "AnDl",
-  "version": 2000,
+  "version": 2001,
   "so": "drloguexxl.so",
   "params": "params.json",
   "build": {

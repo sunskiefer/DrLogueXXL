@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1
+- Note names as MPC shows them (36 = C1, 60 = C3) on the screen.
+- The full README and a user guide (docs/USER_GUIDE.md); listed in the mpc-vst-plugins catalog.
+
 ## 0.2.0
 - The panel: three pages. PERFORM (the kit knobs as on the machine with SHIFT for HT and SP 2, the screen and its
   four knobs with pages for every part, delay, reverb, master and global, the 16 part / effect keys with LEDs, the
