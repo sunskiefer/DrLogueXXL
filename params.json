@@ -2441,7 +2441,7 @@
     "Mono BPM",
     "Tape",
     "Tape BPM",
-    "Tribal",
+    "Tribe",
     "Cassette"
    ],
    "default": 1
@@ -2588,8 +2588,8 @@
     "Riser",
     "Submarine",
     "Clouds",
-    "Labirinto",
-    "Luce"
+    "Labyrinth",
+    "Halo"
    ],
    "default": 1
   },
@@ -2659,7 +2659,7 @@
     "Filter",
     "Boost",
     "EQ Three",
-    "Omnipress"
+    "Omni"
    ],
    "default": 0,
    "refresh_display": true

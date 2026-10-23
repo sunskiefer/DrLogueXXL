@@ -18,11 +18,16 @@
       "src/rom/synth_util.cc",
       "src/rom/synth_gen.cc",
       "src/rom/synth_banks.cc",
-      "src/rom/wav.cc"
+      "src/rom/wav.cc",
+      "src/fx/delay.cc",
+      "src/fx/reverb.cc",
+      "src/fx/master.cc"
     ],
     "cflags": [
       "-Isrc",
-      "-Ithird_party/logue-sdk/platform/drumlogue/common"
+      "-Ithird_party/logue-sdk/platform/drumlogue/common",
+      "-Ithird_party/mutable",
+      "-Ithird_party/community/cldmnky/clouds-revfx"
     ],
     "libs": [
       "-lm",

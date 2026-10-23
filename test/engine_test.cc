@@ -138,7 +138,7 @@ int main() {
     if (step % 8 == 6) { Note(e, 60 + (step % 5) * 3, 100); }
     if (step % 8 == 7) { for (int n = 60; n < 80; ++n) Note(e, n, 0); }
   };
-  const char* dly_types[] = {"Stereo", "Stereo BPM", "Mono", "Mono BPM", "Tape", "Tape BPM", "Tribal", "Cassette"};
+  const char* dly_types[] = {"Stereo", "Stereo BPM", "Mono", "Mono BPM", "Tape", "Tape BPM", "Tribe", "Cassette"};
   for (int t = 0; t < 8; ++t) {
     Set(e, "dly_type", t);
     std::vector<int16_t> rec;

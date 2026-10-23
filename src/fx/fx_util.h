@@ -29,19 +29,40 @@ struct Line {
     buf[w] = x;
     filled += filled < size;
   }
+  // hot-loop write: no history bookkeeping; call Commit(n) after the block. Within the block, reads of samples
+  // written in it are only exact where unchecked (AtU/LinU) or once the line is Ready -- callers make sure of that.
+  inline void WriteU(float x) {
+    w = (w + 1) & mask;
+    buf[w] = x;
+  }
+  inline void Commit(int n) { filled = filled + n < size ? filled + n : size; }
   // the sample written k writes ago (k = 0: the last one written)
   inline float At(int k) const { return (unsigned)k < (unsigned)filled ? buf[(w - k) & mask] : 0.0f; }
+  // true once more than `maxd` samples have been written since Clear(): reads up to maxd may skip the check
+  inline bool Ready(int maxd) const { return filled > maxd; }
+  inline float AtU(int k) const { return buf[(w - k) & mask]; }
+  inline float LinU(float d) const {
+    int i = (int)d;
+    float f = d - (float)i;
+    float a = buf[(w - i) & mask], b = buf[(w - i - 1) & mask];
+    return a + (b - a) * f;
+  }
   inline float Lin(float d) const {
     int i = (int)d;
     float f = d - (float)i;
     float a = At(i), b = At(i + 1);
     return a + (b - a) * f;
   }
-  // 4-point Hermite, d >= 1
-  inline float Herm(float d) const {
+  // 4-point Hermite, d >= 1; HermU skips the history check (valid once Ready(d + 2))
+  inline float Herm(float d) const { return HermT<false>(d); }
+  inline float HermU(float d) const { return HermT<true>(d); }
+  template <bool U>
+  inline float HermT(float d) const {
     int i = (int)d;
     float f = d - (float)i;
-    float xm1 = At(i - 1), x0 = At(i), x1 = At(i + 1), x2 = At(i + 2);
+    float xm1, x0, x1, x2;
+    if (U) { xm1 = AtU(i - 1); x0 = AtU(i); x1 = AtU(i + 1); x2 = AtU(i + 2); }
+    else { xm1 = At(i - 1); x0 = At(i); x1 = At(i + 1); x2 = At(i + 2); }
     float c = (x1 - xm1) * 0.5f;
     float v = x0 - x1;
     float ww = c + v;
@@ -78,6 +99,10 @@ struct Dither {
   }
 };
 
+// zero a recursive state that has decayed below -300 dBFS (keeps it out of the denormal range)
+inline void Flush(float& x) { if (fabsf(x) < 1e-15f) x = 0.0f; }
+inline void FlushSvf(Svf& f) { Flush(f.ic1); Flush(f.ic2); }
+
 // Transparent below 1, then a soft knee that never exceeds 1.25 -- the safety net inside feedback loops.
 inline float SafeLim(float x) {
   float a = fabsf(x);
@@ -90,7 +115,7 @@ inline float SafeLim(float x) {
 inline float FastLog2(float x) {   // x > 0, error < 0.005
   union { float f; uint32_t i; } u;
   u.f = x;
-  float e = (float)(int)((u.i >> 23) & 255) - 127.0f;
+  float e = (float)(int)((u.i >> 23) & 255) - 128.0f;   // the polynomial below is log2(m) + 1
   u.i = (u.i & 0x007FFFFFu) | 0x3F800000u;
   float m = u.f;
   return e + (-0.34484843f * m + 2.02466578f) * m - 0.67487759f;
@@ -114,14 +139,13 @@ inline void Fwht4(float* x) {
   x[0] = (a + c) * 0.5f; x[2] = (a - c) * 0.5f; x[1] = (b + d) * 0.5f; x[3] = (b - d) * 0.5f;
 }
 inline void Fwht8(float* x) {
-  for (int h = 1; h < 8; h <<= 1)
-    for (int i = 0; i < 8; i += h << 1)
-      for (int j = i; j < i + h; ++j) {
-        float a = x[j], b = x[j + h];
-        x[j] = a + b;
-        x[j + h] = a - b;
-      }
-  for (int i = 0; i < 8; ++i) x[i] *= 0.35355339f;
+  const float k = 0.35355339f;
+  float a0 = x[0] + x[1], a1 = x[0] - x[1], a2 = x[2] + x[3], a3 = x[2] - x[3];
+  float a4 = x[4] + x[5], a5 = x[4] - x[5], a6 = x[6] + x[7], a7 = x[6] - x[7];
+  float b0 = a0 + a2, b2 = a0 - a2, b1 = a1 + a3, b3 = a1 - a3;
+  float b4 = a4 + a6, b6 = a4 - a6, b5 = a5 + a7, b7 = a5 - a7;
+  x[0] = (b0 + b4) * k; x[4] = (b0 - b4) * k; x[1] = (b1 + b5) * k; x[5] = (b1 - b5) * k;
+  x[2] = (b2 + b6) * k; x[6] = (b2 - b6) * k; x[3] = (b3 + b7) * k; x[7] = (b3 - b7) * k;
 }
 
 // Two-head granular pitch shifter (the classic Clouds/Eventide layout): two read heads half a window apart,
@@ -141,6 +165,7 @@ struct Shifter {
     float d1 = phase * size;
     float d2 = d1 + 0.5f * size;
     if (d2 >= size) d2 -= size;
+    if (buf.Ready(4096 - 2 * kBlock)) return buf.LinU(d1) * tri + buf.LinU(d2) * (1.0f - tri);
     return buf.Lin(d1) * tri + buf.Lin(d2) * (1.0f - tri);
   }
 };

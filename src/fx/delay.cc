@@ -64,7 +64,12 @@ struct Heads {
     if (active) { w += s; if (w > 1.0f) w = 1.0f; }
     else { w -= s; if (w < 0.0f) w = 0.0f; }
   }
-  inline float Read(const fxu::Line& l, float mod) const {
+  inline float Read(const fxu::Line& l, float mod, bool fast) const {
+    if (fast) {
+      if (w <= 0.0f) return l.HermU(d[0] + mod);
+      if (w >= 1.0f) return l.HermU(d[1] + mod);
+      return l.HermU(d[0] + mod) * (1.0f - w) + l.HermU(d[1] + mod) * w;
+    }
     if (w <= 0.0f) return l.Herm(d[0] + mod);
     if (w >= 1.0f) return l.Herm(d[1] + mod);
     return l.Herm(d[0] + mod) * (1.0f - w) + l.Herm(d[1] + mod) * w;
@@ -204,9 +209,8 @@ void DelayFx::Process(const float* in_l, const float* in_r, float* out_l, float*
   const int route = type == T_TRIBAL || mono ? 0 : (int)(v[P_DLY_ROUTE] + 0.5f);
   // mono output pan (SPREAD), equal power
   if (mono || type == T_TRIBAL) {
-    float p = (spread + 1.0f) * 0.25f * kPi;
-    s.panl = cosf(p);
-    s.panr = sinf(p);
+    s.panl = spread > 0.0f ? 1.0f - spread : 1.0f;   // balance law: centre = full on both sides
+    s.panr = spread < 0.0f ? 1.0f + spread : 1.0f;
   }
   // tape: tracking
   const float trk = Clamp(v[P_DLY_TRACKING], 0.0f, 100.0f) * 0.01f;
@@ -256,6 +260,7 @@ void DelayFx::Process(const float* in_l, const float* in_r, float* out_l, float*
     for (int k = 1; k < clones; ++k) if (kTribalPos[k] > kTribalPos[last]) last = k;
     fxu::Line& line = s.ch[0].line;
     Chan& c = s.ch[0];
+    const bool fast = line.Ready(kLineSize - 4);
     for (int i = 0; i < n; ++i) {
       s.fb += dfb;
       s.level += dlv;
@@ -267,20 +272,20 @@ void DelayFx::Process(const float* in_l, const float* in_r, float* out_l, float*
         s.tap_off[k] += (s.tap_off_t[k] - s.tap_off[k]) * 0.002f;
         float d = s.unit * kTribalPos[k] + s.tap_off[k];
         if (d < 2.0f) d = 2.0f;
-        float y = line.Lin(d);
+        float y = fast ? line.LinU(d) : line.Lin(d);
         s.tap_lp[k][0] += s.tap_lp[k][1] * (y - s.tap_lp[k][0]);
         y = s.tap_lp[k][0];
         ol += y * s.tap_gl[k];
         orr += y * s.tap_gr[k];
         if (k == last) fbk = y;
       }
-      float w = x + s.fb * 0.9f * fbk;
+      float w = x + s.fb * 0.9f * fbk + s.dith.Next();
       w = SoftClip(w * loop_g) * loop_inv;
       if (fm == 1) w = c.filt.Lp(w); else if (fm == 2) w = c.filt.Hp(w);
-      w = c.dc.Hp(w, dc_a) + s.dith.Next();
-      line.Write(w);
-      out_l[i] = ol * s.level;
-      out_r[i] = orr * s.level;
+      w = c.dc.Hp(w, dc_a);
+      line.Write(fxu::SafeLim(w));
+      out_l[i] = fxu::SafeLim(ol) * s.level;
+      out_r[i] = fxu::SafeLim(orr) * s.level;
     }
     for (int k = 0; k < kTaps; ++k) if (fabsf(s.tap_lp[k][0]) < 1e-20f) s.tap_lp[k][0] = 0.0f;
     return;
@@ -290,6 +295,8 @@ void DelayFx::Process(const float* in_l, const float* in_r, float* out_l, float*
   const int nch = mono ? 1 : 2;
   float tgt[2] = {tl, tr};
   for (int c = 0; c < nch; ++c) if (!glide) s.ch[c].heads.Jump(tgt[c]);
+  // unchecked reads once both lines hold more history than any read can reach (max time + modulation)
+  const bool fast = s.ch[0].line.Ready(kLineSize - 4) && (mono || s.ch[1].line.Ready(kLineSize - 4));
   for (int i = 0; i < n; ++i) {
     s.fb += dfb;
     s.level += dlv;
@@ -314,7 +321,7 @@ void DelayFx::Process(const float* in_l, const float* in_r, float* out_l, float*
       } else {
         h.StepFade();
       }
-      r[c] = h.Read(s.ch[c].line, c ? modr : modv);
+      r[c] = h.Read(s.ch[c].line, c ? modr : modv, fast);
     }
     if (mono) r[1] = r[0];
     float xin[2];
@@ -337,13 +344,12 @@ void DelayFx::Process(const float* in_l, const float* in_r, float* out_l, float*
       if (sat > 0.0f) {
         x = SoftClip(x * in_drive + asym * x * x) * in_norm;
       }
-      float w = x + s.fb * ret[c];
+      float w = x + s.fb * ret[c] + s.dith.Next();
       if (sat > 0.0f) w = SoftClip(w * loop_g) * loop_inv;
-      w = fxu::SafeLim(w);
       if (fm == 1) w = ch.filt.Lp(w); else if (fm == 2) w = ch.filt.Hp(w);
       if (tape) w = ch.tone.Lp(w);
-      w = ch.dc.Hp(w, dc_a) + s.dith.Next();
-      ch.line.Write(w);
+      w = ch.dc.Hp(w, dc_a);
+      ch.line.Write(fxu::SafeLim(w));   // last in the loop: the line never holds more than 1.25
     }
     float ol = r[0], orr = r[1];
     if (tape) {
@@ -353,9 +359,9 @@ void DelayFx::Process(const float* in_l, const float* in_r, float* out_l, float*
       if (!mono) { s.ch[1].bump.Process(orr, &l_, &b_, &h_); orr += bump_g * b_; }
       else orr = ol;
     }
-    if (mono) { float m = ol; ol = m * s.panl * 1.4142f; orr = m * s.panr * 1.4142f; }
-    out_l[i] = ol * s.level;
-    out_r[i] = orr * s.level;
+    if (mono) { float m = ol; ol = m * s.panl; orr = m * s.panr; }
+    out_l[i] = fxu::SafeLim(ol) * s.level;
+    out_r[i] = fxu::SafeLim(orr) * s.level;
   }
 }
 

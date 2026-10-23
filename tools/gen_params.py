@@ -36,14 +36,14 @@ NOISE_ALGOS = ["LPF 2", "LPF 4", "BPF 2", "BPF 4", "HPF 2", "HPF 4", "DECIM"]
 UNIT_NAMES = [l.strip() for l in open(os.path.join(ROOT, "src", "units", "registry.txt")) if l.strip()]
 MT_ENGINES = ["VPM", "NOISE"] + UNIT_NAMES
 NUM_UNIT_SLOTS = 24                                                   # a drumlogue unit has up to 24 parameters
-DLY_TYPES = ["Stereo", "Stereo BPM", "Mono", "Mono BPM", "Tape", "Tape BPM", "Tribal", "Cassette"]
+DLY_TYPES = ["Stereo", "Stereo BPM", "Mono", "Mono BPM", "Tape", "Tape BPM", "Tribe", "Cassette"]
 DLY_DIVS = ["1/64", "1/48", "1/32", "1/24", "1/16", "1/12", "3/32", "1/8", "1/6", "3/16", "1/4", "1/3", "3/8",
             "1/2", "3/4", "1"]                                        # of a bar, as on the drumlogue
 DLY_FILTERS = ["---", "LP", "HP"]
 DLY_ROUTES = ["Normal", "Crossed", "P-Pong"]
 PRE_POST = ["Pre", "Post"]
-REV_TYPES = ["Room", "Hall", "Space", "Riser", "Submarine", "Clouds", "Labirinto", "Luce"]
-MFX_TYPES = ["Thru", "Compressor", "Filter", "Boost", "EQ Three", "Omnipress"]
+REV_TYPES = ["Room", "Hall", "Space", "Riser", "Submarine", "Clouds", "Labyrinth", "Halo"]
+MFX_TYPES = ["Thru", "Compressor", "Filter", "Boost", "EQ Three", "Omni"]
 MF_MODES = ["Thru", "LPF 2", "LPF 4", "BPF 2", "BPF 4", "HPF 2", "HPF 4"]
 EQ_SLOPES = ["12dB", "24dB"]
 CHOKE = ["Off", "1", "2", "3", "4"]
@@ -186,7 +186,7 @@ P += [
     knob("eq_gain", "Gain", -6, 6, 0), knob("eq_lowmid", "Low/Mid", 0, 100, 30),
     knob("eq_midhigh", "Mid/High", 0, 100, 70), opts("eq_slope", "Slope", EQ_SLOPES, 0),
 ]
-# community master effects (Omnipress) use six generic slots, named by the effect
+# the Omni master effect uses six generic slots, named by the effect
 P += [knob("mfx_u%d" % (i + 1), "FX %d" % (i + 1), 0, 100, 50, dynamic_name=True) for i in range(6)]
 # engine-side controls
 P += [{"key": "panic", "name": "Panic", "min": 0.0, "max": 1.0, "default": 0.0, "momentary": True, "type": "trigger"},
