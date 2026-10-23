@@ -9,7 +9,10 @@
     "root": ".",
     "sources": [
       "src/vst_glue.cc",
-      "src/dlx_engine.cc"
+      "src/dlx_engine.cc",
+      "src/parts/bd.cc",
+      "src/parts/sd.cc",
+      "src/parts/tom.cc"
     ],
     "cflags": [
       "-Isrc",
