@@ -1,0 +1,30 @@
+{
+  "name": "DrLogueXXL",
+  "vendor": "L'Cronx",
+  "uid": "AnDl",
+  "version": 1000,
+  "so": "drloguexxl.so",
+  "params": "params.json",
+  "build": {
+    "root": ".",
+    "sources": [
+      "src/vst_glue.cc",
+      "src/dlx_engine.cc"
+    ],
+    "cflags": [
+      "-Isrc",
+      "-Ithird_party/logue-sdk/platform/drumlogue/common"
+    ],
+    "libs": [
+      "-lm",
+      "-ldl",
+      "-lpthread"
+    ]
+  },
+  "title_font": "art/fonts/TitilliumWeb-SemiBold.ttf",
+  "defines": {
+    "HAS_LFO_BPM": 1,
+    "MODULE_SUBDIR": "\"Samples\""
+  },
+  "layout": "layout.conf"
+}

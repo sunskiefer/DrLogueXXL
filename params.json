@@ -1,0 +1,3330 @@
+{
+ "name": "DrLogueXXL",
+ "params": [
+  {
+   "key": "volume",
+   "name": "Volume",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 80.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "note_map",
+   "name": "Note Map",
+   "options": [
+    "Pads",
+    "GM",
+    "Custom"
+   ],
+   "default": 0
+  },
+  {
+   "key": "base_note",
+   "name": "Base Note",
+   "min": 0.0,
+   "max": 116.0,
+   "default": 36.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "vel_sens",
+   "name": "Velocity",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 70.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "multi_keys",
+   "name": "Multi Keys",
+   "options": [
+    "Off",
+    "On"
+   ],
+   "default": 1
+  },
+  {
+   "key": "key_split",
+   "name": "Key Split",
+   "min": 0.0,
+   "max": 127.0,
+   "default": 60.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "lim_drive",
+   "name": "Lim Drive",
+   "min": 0.0,
+   "max": 12.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "lim_ceiling",
+   "name": "Lim Ceiling",
+   "min": -12.0,
+   "max": 0.0,
+   "default": -0.3,
+   "dynamic_display": true
+  },
+  {
+   "key": "bd_decay",
+   "name": "Decay",
+   "min": 0.0,
+   "max": 1023.0,
+   "default": 512.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "bd_tune",
+   "name": "Tune",
+   "min": 0.0,
+   "max": 1023.0,
+   "default": 400.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "bd_drive",
+   "name": "Drive",
+   "min": 0.0,
+   "max": 1023.0,
+   "default": 200.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "bd_transient",
+   "name": "Transient",
+   "options": [
+    "Click",
+    "Beater",
+    "Felt",
+    "Tick",
+    "Snap",
+    "Wood",
+    "Pop",
+    "Noise",
+    "Air",
+    "Zap",
+    "Metal",
+    "Thump",
+    "Vinyl",
+    "Bit",
+    "Chirp",
+    "Laser"
+   ],
+   "default": 0
+  },
+  {
+   "key": "bd_sweep",
+   "name": "Sweep",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 50.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "bd_swtime",
+   "name": "Sw.Time",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 50.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "bd_hold",
+   "name": "Hold",
+   "min": 0.0,
+   "max": 3.0,
+   "default": 0.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "bd_attack",
+   "name": "Attack",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 50.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "bd_cutoff",
+   "name": "Cutoff",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "bd_reson",
+   "name": "Reson",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "bd_level",
+   "name": "Level",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 80.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "bd_pan",
+   "name": "Pan",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "bd_dly",
+   "name": "Delay",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "bd_rev",
+   "name": "Reverb",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "bd_master",
+   "name": "Master",
+   "options": [
+    "On",
+    "Bypass"
+   ],
+   "default": 0
+  },
+  {
+   "key": "bd_sidech",
+   "name": "Sidechain",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 100.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "bd_choke",
+   "name": "Choke",
+   "options": [
+    "Off",
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "default": 0
+  },
+  {
+   "key": "bd_prio",
+   "name": "Priority",
+   "options": [
+    "Low",
+    "Mid",
+    "High"
+   ],
+   "default": 1
+  },
+  {
+   "key": "bd_mute",
+   "name": "Mute",
+   "options": [
+    "Off",
+    "On"
+   ],
+   "default": 0
+  },
+  {
+   "key": "bd_note",
+   "name": "MIDI Note",
+   "min": 0.0,
+   "max": 127.0,
+   "default": 36.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "sd_decay",
+   "name": "Decay",
+   "min": 0.0,
+   "max": 1023.0,
+   "default": 400.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "sd_tune",
+   "name": "Tune",
+   "min": 0.0,
+   "max": 1023.0,
+   "default": 500.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "sd_snapdec",
+   "name": "Snap.Dec",
+   "min": 0.0,
+   "max": 1023.0,
+   "default": 450.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "sd_snappy",
+   "name": "Snappy",
+   "options": [
+    "808",
+    "909",
+    "White",
+    "Pink",
+    "Bright",
+    "Rattle",
+    "Lo-Fi 1",
+    "Lo-Fi 2",
+    "Lo-Fi 3"
+   ],
+   "default": 0
+  },
+  {
+   "key": "sd_tone",
+   "name": "Tone",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 50.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sd_snaplv",
+   "name": "Snap.Lv",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 70.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sd_cutoff",
+   "name": "Cutoff",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sd_reson",
+   "name": "Reson",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sd_level",
+   "name": "Level",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 80.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sd_pan",
+   "name": "Pan",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sd_spread",
+   "name": "Spread",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sd_dly",
+   "name": "Delay",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sd_rev",
+   "name": "Reverb",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sd_master",
+   "name": "Master",
+   "options": [
+    "On",
+    "Bypass"
+   ],
+   "default": 0
+  },
+  {
+   "key": "sd_sidech",
+   "name": "Sidechain",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sd_choke",
+   "name": "Choke",
+   "options": [
+    "Off",
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "default": 0
+  },
+  {
+   "key": "sd_prio",
+   "name": "Priority",
+   "options": [
+    "Low",
+    "Mid",
+    "High"
+   ],
+   "default": 1
+  },
+  {
+   "key": "sd_mute",
+   "name": "Mute",
+   "options": [
+    "Off",
+    "On"
+   ],
+   "default": 0
+  },
+  {
+   "key": "sd_note",
+   "name": "MIDI Note",
+   "min": 0.0,
+   "max": 127.0,
+   "default": 38.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "lt_decay",
+   "name": "Decay",
+   "min": 0.0,
+   "max": 1023.0,
+   "default": 500.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "lt_tune",
+   "name": "Tune",
+   "min": 0.0,
+   "max": 1023.0,
+   "default": 400.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "lt_detune",
+   "name": "Detune",
+   "min": 0.0,
+   "max": 1023.0,
+   "default": 300.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "lt_layer",
+   "name": "Layer",
+   "options": [
+    "Stick",
+    "Skin",
+    "Slap",
+    "Block",
+    "Zap",
+    "Rim",
+    "Metal",
+    "Bloop",
+    "Shaker",
+    "Brush"
+   ],
+   "default": 0
+  },
+  {
+   "key": "lt_sweep",
+   "name": "Sweep",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 40.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "lt_attack",
+   "name": "Attack",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 40.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "lt_cutoff",
+   "name": "Cutoff",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "lt_reson",
+   "name": "Reson",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "lt_drive",
+   "name": "Drive",
+   "options": [
+    "Off",
+    "Low",
+    "High"
+   ],
+   "default": 0
+  },
+  {
+   "key": "lt_level",
+   "name": "Level",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 80.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "lt_pan",
+   "name": "Pan",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "lt_dly",
+   "name": "Delay",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "lt_rev",
+   "name": "Reverb",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "lt_master",
+   "name": "Master",
+   "options": [
+    "On",
+    "Bypass"
+   ],
+   "default": 0
+  },
+  {
+   "key": "lt_sidech",
+   "name": "Sidechain",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "lt_choke",
+   "name": "Choke",
+   "options": [
+    "Off",
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "default": 0
+  },
+  {
+   "key": "lt_prio",
+   "name": "Priority",
+   "options": [
+    "Low",
+    "Mid",
+    "High"
+   ],
+   "default": 1
+  },
+  {
+   "key": "lt_mute",
+   "name": "Mute",
+   "options": [
+    "Off",
+    "On"
+   ],
+   "default": 0
+  },
+  {
+   "key": "lt_note",
+   "name": "MIDI Note",
+   "min": 0.0,
+   "max": 127.0,
+   "default": 45.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "ht_decay",
+   "name": "Decay",
+   "min": 0.0,
+   "max": 1023.0,
+   "default": 500.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "ht_tune",
+   "name": "Tune",
+   "min": 0.0,
+   "max": 1023.0,
+   "default": 600.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "ht_detune",
+   "name": "Detune",
+   "min": 0.0,
+   "max": 1023.0,
+   "default": 300.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "ht_layer",
+   "name": "Layer",
+   "options": [
+    "Stick",
+    "Skin",
+    "Slap",
+    "Block",
+    "Zap",
+    "Rim",
+    "Metal",
+    "Bloop",
+    "Shaker",
+    "Brush"
+   ],
+   "default": 0
+  },
+  {
+   "key": "ht_sweep",
+   "name": "Sweep",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 40.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "ht_attack",
+   "name": "Attack",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 40.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "ht_cutoff",
+   "name": "Cutoff",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "ht_reson",
+   "name": "Reson",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "ht_drive",
+   "name": "Drive",
+   "options": [
+    "Off",
+    "Low",
+    "High"
+   ],
+   "default": 0
+  },
+  {
+   "key": "ht_level",
+   "name": "Level",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 80.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "ht_pan",
+   "name": "Pan",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "ht_dly",
+   "name": "Delay",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "ht_rev",
+   "name": "Reverb",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "ht_master",
+   "name": "Master",
+   "options": [
+    "On",
+    "Bypass"
+   ],
+   "default": 0
+  },
+  {
+   "key": "ht_sidech",
+   "name": "Sidechain",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "ht_choke",
+   "name": "Choke",
+   "options": [
+    "Off",
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "default": 0
+  },
+  {
+   "key": "ht_prio",
+   "name": "Priority",
+   "options": [
+    "Low",
+    "Mid",
+    "High"
+   ],
+   "default": 1
+  },
+  {
+   "key": "ht_mute",
+   "name": "Mute",
+   "options": [
+    "Off",
+    "On"
+   ],
+   "default": 0
+  },
+  {
+   "key": "ht_note",
+   "name": "MIDI Note",
+   "min": 0.0,
+   "max": 127.0,
+   "default": 50.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "ch_bank",
+   "name": "Bank",
+   "options": [
+    "CH",
+    "OH",
+    "RS",
+    "CP",
+    "MISC",
+    "USER",
+    "EXP"
+   ],
+   "default": 0
+  },
+  {
+   "key": "ch_sample",
+   "name": "Sample",
+   "min": 1.0,
+   "max": 128.0,
+   "default": 1.0,
+   "dynamic_display": true,
+   "display": "int",
+   "nudge_pct": 2
+  },
+  {
+   "key": "ch_tune",
+   "name": "Tune",
+   "min": -24.0,
+   "max": 24.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "ch_attack",
+   "name": "Attack",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "ch_decay",
+   "name": "Decay",
+   "min": 0.0,
+   "max": 1023.0,
+   "default": 300.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "ch_start",
+   "name": "Start",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "ch_end",
+   "name": "End",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 100.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "ch_cutoff",
+   "name": "Cutoff",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "ch_reson",
+   "name": "Reson",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "ch_redux",
+   "name": "Redux",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "ch_drive",
+   "name": "Drive",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "ch_level",
+   "name": "Level",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 80.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "ch_pan",
+   "name": "Pan",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "ch_spread",
+   "name": "Spread",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "ch_dly",
+   "name": "Delay",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "ch_rev",
+   "name": "Reverb",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "ch_master",
+   "name": "Master",
+   "options": [
+    "On",
+    "Bypass"
+   ],
+   "default": 0
+  },
+  {
+   "key": "ch_sidech",
+   "name": "Sidechain",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "ch_choke",
+   "name": "Choke",
+   "options": [
+    "Off",
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "default": 1
+  },
+  {
+   "key": "ch_prio",
+   "name": "Priority",
+   "options": [
+    "Low",
+    "Mid",
+    "High"
+   ],
+   "default": 1
+  },
+  {
+   "key": "ch_mute",
+   "name": "Mute",
+   "options": [
+    "Off",
+    "On"
+   ],
+   "default": 0
+  },
+  {
+   "key": "ch_note",
+   "name": "MIDI Note",
+   "min": 0.0,
+   "max": 127.0,
+   "default": 42.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "oh_bank",
+   "name": "Bank",
+   "options": [
+    "CH",
+    "OH",
+    "RS",
+    "CP",
+    "MISC",
+    "USER",
+    "EXP"
+   ],
+   "default": 1
+  },
+  {
+   "key": "oh_sample",
+   "name": "Sample",
+   "min": 1.0,
+   "max": 128.0,
+   "default": 1.0,
+   "dynamic_display": true,
+   "display": "int",
+   "nudge_pct": 2
+  },
+  {
+   "key": "oh_tune",
+   "name": "Tune",
+   "min": -24.0,
+   "max": 24.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "oh_attack",
+   "name": "Attack",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "oh_decay",
+   "name": "Decay",
+   "min": 0.0,
+   "max": 1023.0,
+   "default": 600.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "oh_start",
+   "name": "Start",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "oh_end",
+   "name": "End",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 100.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "oh_cutoff",
+   "name": "Cutoff",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "oh_reson",
+   "name": "Reson",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "oh_redux",
+   "name": "Redux",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "oh_drive",
+   "name": "Drive",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "oh_level",
+   "name": "Level",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 80.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "oh_pan",
+   "name": "Pan",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "oh_spread",
+   "name": "Spread",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "oh_dly",
+   "name": "Delay",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "oh_rev",
+   "name": "Reverb",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "oh_master",
+   "name": "Master",
+   "options": [
+    "On",
+    "Bypass"
+   ],
+   "default": 0
+  },
+  {
+   "key": "oh_sidech",
+   "name": "Sidechain",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "oh_choke",
+   "name": "Choke",
+   "options": [
+    "Off",
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "default": 1
+  },
+  {
+   "key": "oh_prio",
+   "name": "Priority",
+   "options": [
+    "Low",
+    "Mid",
+    "High"
+   ],
+   "default": 1
+  },
+  {
+   "key": "oh_mute",
+   "name": "Mute",
+   "options": [
+    "Off",
+    "On"
+   ],
+   "default": 0
+  },
+  {
+   "key": "oh_note",
+   "name": "MIDI Note",
+   "min": 0.0,
+   "max": 127.0,
+   "default": 46.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "rs_bank",
+   "name": "Bank",
+   "options": [
+    "CH",
+    "OH",
+    "RS",
+    "CP",
+    "MISC",
+    "USER",
+    "EXP"
+   ],
+   "default": 2
+  },
+  {
+   "key": "rs_sample",
+   "name": "Sample",
+   "min": 1.0,
+   "max": 128.0,
+   "default": 1.0,
+   "dynamic_display": true,
+   "display": "int",
+   "nudge_pct": 2
+  },
+  {
+   "key": "rs_tune",
+   "name": "Tune",
+   "min": -24.0,
+   "max": 24.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "rs_attack",
+   "name": "Attack",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "rs_decay",
+   "name": "Decay",
+   "min": 0.0,
+   "max": 1023.0,
+   "default": 400.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "rs_start",
+   "name": "Start",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "rs_end",
+   "name": "End",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 100.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "rs_cutoff",
+   "name": "Cutoff",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "rs_reson",
+   "name": "Reson",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "rs_redux",
+   "name": "Redux",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "rs_drive",
+   "name": "Drive",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "rs_level",
+   "name": "Level",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 80.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "rs_pan",
+   "name": "Pan",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "rs_spread",
+   "name": "Spread",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "rs_dly",
+   "name": "Delay",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "rs_rev",
+   "name": "Reverb",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "rs_master",
+   "name": "Master",
+   "options": [
+    "On",
+    "Bypass"
+   ],
+   "default": 0
+  },
+  {
+   "key": "rs_sidech",
+   "name": "Sidechain",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "rs_choke",
+   "name": "Choke",
+   "options": [
+    "Off",
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "default": 0
+  },
+  {
+   "key": "rs_prio",
+   "name": "Priority",
+   "options": [
+    "Low",
+    "Mid",
+    "High"
+   ],
+   "default": 1
+  },
+  {
+   "key": "rs_mute",
+   "name": "Mute",
+   "options": [
+    "Off",
+    "On"
+   ],
+   "default": 0
+  },
+  {
+   "key": "rs_note",
+   "name": "MIDI Note",
+   "min": 0.0,
+   "max": 127.0,
+   "default": 37.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "cp_bank",
+   "name": "Bank",
+   "options": [
+    "CH",
+    "OH",
+    "RS",
+    "CP",
+    "MISC",
+    "USER",
+    "EXP"
+   ],
+   "default": 3
+  },
+  {
+   "key": "cp_sample",
+   "name": "Sample",
+   "min": 1.0,
+   "max": 128.0,
+   "default": 1.0,
+   "dynamic_display": true,
+   "display": "int",
+   "nudge_pct": 2
+  },
+  {
+   "key": "cp_tune",
+   "name": "Tune",
+   "min": -24.0,
+   "max": 24.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "cp_attack",
+   "name": "Attack",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "cp_decay",
+   "name": "Decay",
+   "min": 0.0,
+   "max": 1023.0,
+   "default": 500.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "cp_start",
+   "name": "Start",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "cp_end",
+   "name": "End",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 100.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "cp_cutoff",
+   "name": "Cutoff",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "cp_reson",
+   "name": "Reson",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "cp_redux",
+   "name": "Redux",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "cp_drive",
+   "name": "Drive",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "cp_level",
+   "name": "Level",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 80.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "cp_pan",
+   "name": "Pan",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "cp_spread",
+   "name": "Spread",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "cp_dly",
+   "name": "Delay",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "cp_rev",
+   "name": "Reverb",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "cp_master",
+   "name": "Master",
+   "options": [
+    "On",
+    "Bypass"
+   ],
+   "default": 0
+  },
+  {
+   "key": "cp_sidech",
+   "name": "Sidechain",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "cp_choke",
+   "name": "Choke",
+   "options": [
+    "Off",
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "default": 0
+  },
+  {
+   "key": "cp_prio",
+   "name": "Priority",
+   "options": [
+    "Low",
+    "Mid",
+    "High"
+   ],
+   "default": 1
+  },
+  {
+   "key": "cp_mute",
+   "name": "Mute",
+   "options": [
+    "Off",
+    "On"
+   ],
+   "default": 0
+  },
+  {
+   "key": "cp_note",
+   "name": "MIDI Note",
+   "min": 0.0,
+   "max": 127.0,
+   "default": 39.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "sp1_bank",
+   "name": "Bank",
+   "options": [
+    "CH",
+    "OH",
+    "RS",
+    "CP",
+    "MISC",
+    "USER",
+    "EXP"
+   ],
+   "default": 4
+  },
+  {
+   "key": "sp1_sample",
+   "name": "Sample",
+   "min": 1.0,
+   "max": 128.0,
+   "default": 1.0,
+   "dynamic_display": true,
+   "display": "int",
+   "nudge_pct": 2
+  },
+  {
+   "key": "sp1_tune",
+   "name": "Tune",
+   "min": -24.0,
+   "max": 24.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sp1_attack",
+   "name": "Attack",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sp1_decay",
+   "name": "Decay",
+   "min": 0.0,
+   "max": 1023.0,
+   "default": 1023.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "sp1_start",
+   "name": "Start",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sp1_end",
+   "name": "End",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 100.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sp1_cutoff",
+   "name": "Cutoff",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sp1_reson",
+   "name": "Reson",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sp1_redux",
+   "name": "Redux",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sp1_drive",
+   "name": "Drive",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sp1_level",
+   "name": "Level",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 80.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sp1_pan",
+   "name": "Pan",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sp1_spread",
+   "name": "Spread",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sp1_dly",
+   "name": "Delay",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sp1_rev",
+   "name": "Reverb",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sp1_master",
+   "name": "Master",
+   "options": [
+    "On",
+    "Bypass"
+   ],
+   "default": 0
+  },
+  {
+   "key": "sp1_sidech",
+   "name": "Sidechain",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sp1_choke",
+   "name": "Choke",
+   "options": [
+    "Off",
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "default": 0
+  },
+  {
+   "key": "sp1_prio",
+   "name": "Priority",
+   "options": [
+    "Low",
+    "Mid",
+    "High"
+   ],
+   "default": 1
+  },
+  {
+   "key": "sp1_mute",
+   "name": "Mute",
+   "options": [
+    "Off",
+    "On"
+   ],
+   "default": 0
+  },
+  {
+   "key": "sp1_note",
+   "name": "MIDI Note",
+   "min": 0.0,
+   "max": 127.0,
+   "default": 49.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "sp2_bank",
+   "name": "Bank",
+   "options": [
+    "CH",
+    "OH",
+    "RS",
+    "CP",
+    "MISC",
+    "USER",
+    "EXP"
+   ],
+   "default": 4
+  },
+  {
+   "key": "sp2_sample",
+   "name": "Sample",
+   "min": 1.0,
+   "max": 128.0,
+   "default": 9.0,
+   "dynamic_display": true,
+   "display": "int",
+   "nudge_pct": 2
+  },
+  {
+   "key": "sp2_tune",
+   "name": "Tune",
+   "min": -24.0,
+   "max": 24.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sp2_attack",
+   "name": "Attack",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sp2_decay",
+   "name": "Decay",
+   "min": 0.0,
+   "max": 1023.0,
+   "default": 1023.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "sp2_start",
+   "name": "Start",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sp2_end",
+   "name": "End",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 100.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sp2_cutoff",
+   "name": "Cutoff",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sp2_reson",
+   "name": "Reson",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sp2_redux",
+   "name": "Redux",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sp2_drive",
+   "name": "Drive",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sp2_level",
+   "name": "Level",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 80.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sp2_pan",
+   "name": "Pan",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sp2_spread",
+   "name": "Spread",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sp2_dly",
+   "name": "Delay",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sp2_rev",
+   "name": "Reverb",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sp2_master",
+   "name": "Master",
+   "options": [
+    "On",
+    "Bypass"
+   ],
+   "default": 0
+  },
+  {
+   "key": "sp2_sidech",
+   "name": "Sidechain",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "sp2_choke",
+   "name": "Choke",
+   "options": [
+    "Off",
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "default": 0
+  },
+  {
+   "key": "sp2_prio",
+   "name": "Priority",
+   "options": [
+    "Low",
+    "Mid",
+    "High"
+   ],
+   "default": 1
+  },
+  {
+   "key": "sp2_mute",
+   "name": "Mute",
+   "options": [
+    "Off",
+    "On"
+   ],
+   "default": 0
+  },
+  {
+   "key": "sp2_note",
+   "name": "MIDI Note",
+   "min": 0.0,
+   "max": 127.0,
+   "default": 56.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "mt_engine",
+   "name": "Engine",
+   "options": [
+    "VPM",
+    "NOISE",
+    "Pluck",
+    "Waves",
+    "EffeMD",
+    "EffeESP32",
+    "ScrutaAstri",
+    "Elementish",
+    "Drupiter",
+    "Pepege",
+    "Maxisynth"
+   ],
+   "default": 0,
+   "refresh_display": true
+  },
+  {
+   "key": "mt_unote",
+   "name": "Note",
+   "min": 0.0,
+   "max": 127.0,
+   "default": 60.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "vpm_preset",
+   "name": "Preset",
+   "options": [
+    "Default",
+    "Oct.",
+    "Half",
+    "Fourth",
+    "Air",
+    "Creep",
+    "Throat",
+    "Harsh"
+   ],
+   "default": 0
+  },
+  {
+   "key": "vpm_note",
+   "name": "Note",
+   "min": 0.0,
+   "max": 127.0,
+   "default": 48.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "vpm_index",
+   "name": "Index",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 40.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "vpm_ratio",
+   "name": "Ratio",
+   "options": [
+    "1/4",
+    "1/2",
+    "3/4",
+    "1x",
+    "2x",
+    "3x",
+    "4x",
+    "5x",
+    "6x",
+    "7x",
+    "8x",
+    "9x",
+    "10x",
+    "11x",
+    "12x",
+    "13x",
+    "14x",
+    "15x",
+    "16x"
+   ],
+   "default": 4
+  },
+  {
+   "key": "vpm_noise",
+   "name": "Noise",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "vpm_eg",
+   "name": "EG",
+   "options": [
+    "AR",
+    "ASR",
+    "GATE"
+   ],
+   "default": 0
+  },
+  {
+   "key": "vpm_attack",
+   "name": "Attack",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "vpm_release",
+   "name": "Release",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 40.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "vpm_idxmod",
+   "name": "Idx Mod",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 50.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "noise_algo",
+   "name": "Algo",
+   "options": [
+    "LPF 2",
+    "LPF 4",
+    "BPF 2",
+    "BPF 4",
+    "HPF 2",
+    "HPF 4",
+    "DECIM"
+   ],
+   "default": 0
+  },
+  {
+   "key": "noise_color",
+   "name": "Color",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 60.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "noise_peak",
+   "name": "Peak",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 20.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "noise_attack",
+   "name": "Attack",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "noise_release",
+   "name": "Release",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 30.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "u_1",
+   "name": "Unit 1",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "u_2",
+   "name": "Unit 2",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "u_3",
+   "name": "Unit 3",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "u_4",
+   "name": "Unit 4",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "u_5",
+   "name": "Unit 5",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "u_6",
+   "name": "Unit 6",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "u_7",
+   "name": "Unit 7",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "u_8",
+   "name": "Unit 8",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "u_9",
+   "name": "Unit 9",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "u_10",
+   "name": "Unit 10",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "u_11",
+   "name": "Unit 11",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "u_12",
+   "name": "Unit 12",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "u_13",
+   "name": "Unit 13",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "u_14",
+   "name": "Unit 14",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "u_15",
+   "name": "Unit 15",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "u_16",
+   "name": "Unit 16",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "u_17",
+   "name": "Unit 17",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "u_18",
+   "name": "Unit 18",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "u_19",
+   "name": "Unit 19",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "u_20",
+   "name": "Unit 20",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "u_21",
+   "name": "Unit 21",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "u_22",
+   "name": "Unit 22",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "u_23",
+   "name": "Unit 23",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "u_24",
+   "name": "Unit 24",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "mt_level",
+   "name": "Level",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 80.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt_pan",
+   "name": "Pan",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt_spread",
+   "name": "Spread",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt_dly",
+   "name": "Delay",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt_rev",
+   "name": "Reverb",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt_master",
+   "name": "Master",
+   "options": [
+    "On",
+    "Bypass"
+   ],
+   "default": 0
+  },
+  {
+   "key": "mt_sidech",
+   "name": "Sidechain",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt_choke",
+   "name": "Choke",
+   "options": [
+    "Off",
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "default": 0
+  },
+  {
+   "key": "mt_prio",
+   "name": "Priority",
+   "options": [
+    "Low",
+    "Mid",
+    "High"
+   ],
+   "default": 1
+  },
+  {
+   "key": "mt_mute",
+   "name": "Mute",
+   "options": [
+    "Off",
+    "On"
+   ],
+   "default": 0
+  },
+  {
+   "key": "mt_note",
+   "name": "MIDI Note",
+   "min": 0.0,
+   "max": 127.0,
+   "default": 60.0,
+   "dynamic_display": true,
+   "display": "int"
+  },
+  {
+   "key": "dly_type",
+   "name": "Delay",
+   "options": [
+    "Stereo",
+    "Stereo BPM",
+    "Mono",
+    "Mono BPM",
+    "Tape",
+    "Tape BPM",
+    "Tribal",
+    "Cassette"
+   ],
+   "default": 1
+  },
+  {
+   "key": "dly_time",
+   "name": "Time",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 40.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "dly_div",
+   "name": "Time",
+   "options": [
+    "1/64",
+    "1/48",
+    "1/32",
+    "1/24",
+    "1/16",
+    "1/12",
+    "3/32",
+    "1/8",
+    "1/6",
+    "3/16",
+    "1/4",
+    "1/3",
+    "3/8",
+    "1/2",
+    "3/4",
+    "1"
+   ],
+   "default": 10
+  },
+  {
+   "key": "dly_fb",
+   "name": "Feedback",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 35.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "dly_spread",
+   "name": "Spread",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "dly_filter",
+   "name": "Filter",
+   "options": [
+    "---",
+    "LP",
+    "HP"
+   ],
+   "default": 0
+  },
+  {
+   "key": "dly_cutoff",
+   "name": "Cutoff",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 50.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "dly_sat",
+   "name": "Sat.",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "dly_route",
+   "name": "Route",
+   "options": [
+    "Normal",
+    "Crossed",
+    "P-Pong"
+   ],
+   "default": 0
+  },
+  {
+   "key": "dly_mod",
+   "name": "Mod",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 20.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "dly_tracking",
+   "name": "Tracking",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 50.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "dly_tone",
+   "name": "Tone",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 50.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "dly_level",
+   "name": "Level",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 70.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "dly_return",
+   "name": "Return",
+   "options": [
+    "Pre",
+    "Post"
+   ],
+   "default": 0
+  },
+  {
+   "key": "dly_reverb",
+   "name": "To Reverb",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "rev_type",
+   "name": "Reverb",
+   "options": [
+    "Room",
+    "Hall",
+    "Space",
+    "Riser",
+    "Submarine",
+    "Clouds",
+    "Labirinto",
+    "Luce"
+   ],
+   "default": 1
+  },
+  {
+   "key": "rev_time",
+   "name": "Time",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 50.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "rev_input",
+   "name": "Input",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 50.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "rev_bright",
+   "name": "Bright",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 50.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "rev_rise",
+   "name": "Rise",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 50.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "rev_dive",
+   "name": "Dive",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 50.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "rev_level",
+   "name": "Level",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 70.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "rev_return",
+   "name": "Return",
+   "options": [
+    "Pre",
+    "Post"
+   ],
+   "default": 0
+  },
+  {
+   "key": "mfx_type",
+   "name": "Master FX",
+   "options": [
+    "Thru",
+    "Compressor",
+    "Filter",
+    "Boost",
+    "EQ Three",
+    "Omnipress"
+   ],
+   "default": 0,
+   "refresh_display": true
+  },
+  {
+   "key": "comp_thresh",
+   "name": "Thresh",
+   "min": -64.0,
+   "max": 0.0,
+   "default": -12.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "comp_attack",
+   "name": "Attack",
+   "min": 0.5,
+   "max": 100.0,
+   "default": 10.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "comp_release",
+   "name": "Release",
+   "min": 50.0,
+   "max": 1000.0,
+   "default": 200.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "comp_ratio",
+   "name": "Ratio",
+   "min": 1.0,
+   "max": 10.0,
+   "default": 4.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "comp_makeup",
+   "name": "Makeup",
+   "min": 0.0,
+   "max": 8.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "comp_knee",
+   "name": "Knee",
+   "min": 0.0,
+   "max": 8.0,
+   "default": 2.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "comp_sidech",
+   "name": "Sidechain",
+   "options": [
+    "Off",
+    "On"
+   ],
+   "default": 0
+  },
+  {
+   "key": "comp_wet",
+   "name": "Wet",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 100.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "mf_mode",
+   "name": "Mode",
+   "options": [
+    "Thru",
+    "LPF 2",
+    "LPF 4",
+    "BPF 2",
+    "BPF 4",
+    "HPF 2",
+    "HPF 4"
+   ],
+   "default": 1
+  },
+  {
+   "key": "mf_saturate",
+   "name": "Saturate",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "mf_reson",
+   "name": "Reson",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 20.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "mf_cutoff",
+   "name": "Cutoff",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 100.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "boost_center",
+   "name": "Center",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 30.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "boost_width",
+   "name": "Width",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 50.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "boost_saturate",
+   "name": "Saturate",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "boost_gain",
+   "name": "Boost",
+   "min": 0.0,
+   "max": 12.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "eq_low",
+   "name": "Low",
+   "min": -64.0,
+   "max": 6.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "eq_mid",
+   "name": "Mid",
+   "min": -64.0,
+   "max": 6.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "eq_high",
+   "name": "High",
+   "min": -64.0,
+   "max": 6.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "eq_gain",
+   "name": "Gain",
+   "min": -6.0,
+   "max": 6.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "eq_lowmid",
+   "name": "Low/Mid",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 30.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "eq_midhigh",
+   "name": "Mid/High",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 70.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "eq_slope",
+   "name": "Slope",
+   "options": [
+    "12dB",
+    "24dB"
+   ],
+   "default": 0
+  },
+  {
+   "key": "mfx_u1",
+   "name": "FX 1",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 50.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "mfx_u2",
+   "name": "FX 2",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 50.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "mfx_u3",
+   "name": "FX 3",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 50.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "mfx_u4",
+   "name": "FX 4",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 50.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "mfx_u5",
+   "name": "FX 5",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 50.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "mfx_u6",
+   "name": "FX 6",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 50.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "panic",
+   "name": "Panic",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "momentary": true,
+   "type": "trigger"
+  },
+  {
+   "key": "rescan",
+   "name": "Rescan",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "momentary": true,
+   "type": "trigger"
+  }
+ ],
+ "sections": [
+  {
+   "label": "Global",
+   "keys": [
+    "volume",
+    "note_map",
+    "base_note",
+    "vel_sens",
+    "multi_keys",
+    "key_split",
+    "lim_drive",
+    "lim_ceiling"
+   ]
+  },
+  {
+   "label": "BD",
+   "keys": [
+    "bd_decay",
+    "bd_tune",
+    "bd_drive",
+    "bd_transient",
+    "bd_sweep",
+    "bd_swtime",
+    "bd_hold",
+    "bd_attack",
+    "bd_cutoff",
+    "bd_reson",
+    "bd_level",
+    "bd_pan",
+    "bd_dly",
+    "bd_rev",
+    "bd_master",
+    "bd_sidech",
+    "bd_choke",
+    "bd_prio",
+    "bd_mute",
+    "bd_note"
+   ]
+  },
+  {
+   "label": "SD",
+   "keys": [
+    "sd_decay",
+    "sd_tune",
+    "sd_snapdec",
+    "sd_snappy",
+    "sd_tone",
+    "sd_snaplv",
+    "sd_cutoff",
+    "sd_reson",
+    "sd_level",
+    "sd_pan",
+    "sd_spread",
+    "sd_dly",
+    "sd_rev",
+    "sd_master",
+    "sd_sidech",
+    "sd_choke",
+    "sd_prio",
+    "sd_mute",
+    "sd_note"
+   ]
+  },
+  {
+   "label": "LT",
+   "keys": [
+    "lt_decay",
+    "lt_tune",
+    "lt_detune",
+    "lt_layer",
+    "lt_sweep",
+    "lt_attack",
+    "lt_cutoff",
+    "lt_reson",
+    "lt_drive",
+    "lt_level",
+    "lt_pan",
+    "lt_dly",
+    "lt_rev",
+    "lt_master",
+    "lt_sidech",
+    "lt_choke",
+    "lt_prio",
+    "lt_mute",
+    "lt_note"
+   ]
+  },
+  {
+   "label": "HT",
+   "keys": [
+    "ht_decay",
+    "ht_tune",
+    "ht_detune",
+    "ht_layer",
+    "ht_sweep",
+    "ht_attack",
+    "ht_cutoff",
+    "ht_reson",
+    "ht_drive",
+    "ht_level",
+    "ht_pan",
+    "ht_dly",
+    "ht_rev",
+    "ht_master",
+    "ht_sidech",
+    "ht_choke",
+    "ht_prio",
+    "ht_mute",
+    "ht_note"
+   ]
+  },
+  {
+   "label": "CH",
+   "keys": [
+    "ch_bank",
+    "ch_sample",
+    "ch_tune",
+    "ch_attack",
+    "ch_decay",
+    "ch_start",
+    "ch_end",
+    "ch_cutoff",
+    "ch_reson",
+    "ch_redux",
+    "ch_drive",
+    "ch_level",
+    "ch_pan",
+    "ch_spread",
+    "ch_dly",
+    "ch_rev",
+    "ch_master",
+    "ch_sidech",
+    "ch_choke",
+    "ch_prio",
+    "ch_mute",
+    "ch_note"
+   ]
+  },
+  {
+   "label": "OH",
+   "keys": [
+    "oh_bank",
+    "oh_sample",
+    "oh_tune",
+    "oh_attack",
+    "oh_decay",
+    "oh_start",
+    "oh_end",
+    "oh_cutoff",
+    "oh_reson",
+    "oh_redux",
+    "oh_drive",
+    "oh_level",
+    "oh_pan",
+    "oh_spread",
+    "oh_dly",
+    "oh_rev",
+    "oh_master",
+    "oh_sidech",
+    "oh_choke",
+    "oh_prio",
+    "oh_mute",
+    "oh_note"
+   ]
+  },
+  {
+   "label": "RS",
+   "keys": [
+    "rs_bank",
+    "rs_sample",
+    "rs_tune",
+    "rs_attack",
+    "rs_decay",
+    "rs_start",
+    "rs_end",
+    "rs_cutoff",
+    "rs_reson",
+    "rs_redux",
+    "rs_drive",
+    "rs_level",
+    "rs_pan",
+    "rs_spread",
+    "rs_dly",
+    "rs_rev",
+    "rs_master",
+    "rs_sidech",
+    "rs_choke",
+    "rs_prio",
+    "rs_mute",
+    "rs_note"
+   ]
+  },
+  {
+   "label": "CP",
+   "keys": [
+    "cp_bank",
+    "cp_sample",
+    "cp_tune",
+    "cp_attack",
+    "cp_decay",
+    "cp_start",
+    "cp_end",
+    "cp_cutoff",
+    "cp_reson",
+    "cp_redux",
+    "cp_drive",
+    "cp_level",
+    "cp_pan",
+    "cp_spread",
+    "cp_dly",
+    "cp_rev",
+    "cp_master",
+    "cp_sidech",
+    "cp_choke",
+    "cp_prio",
+    "cp_mute",
+    "cp_note"
+   ]
+  },
+  {
+   "label": "SP1",
+   "keys": [
+    "sp1_bank",
+    "sp1_sample",
+    "sp1_tune",
+    "sp1_attack",
+    "sp1_decay",
+    "sp1_start",
+    "sp1_end",
+    "sp1_cutoff",
+    "sp1_reson",
+    "sp1_redux",
+    "sp1_drive",
+    "sp1_level",
+    "sp1_pan",
+    "sp1_spread",
+    "sp1_dly",
+    "sp1_rev",
+    "sp1_master",
+    "sp1_sidech",
+    "sp1_choke",
+    "sp1_prio",
+    "sp1_mute",
+    "sp1_note"
+   ]
+  },
+  {
+   "label": "SP2",
+   "keys": [
+    "sp2_bank",
+    "sp2_sample",
+    "sp2_tune",
+    "sp2_attack",
+    "sp2_decay",
+    "sp2_start",
+    "sp2_end",
+    "sp2_cutoff",
+    "sp2_reson",
+    "sp2_redux",
+    "sp2_drive",
+    "sp2_level",
+    "sp2_pan",
+    "sp2_spread",
+    "sp2_dly",
+    "sp2_rev",
+    "sp2_master",
+    "sp2_sidech",
+    "sp2_choke",
+    "sp2_prio",
+    "sp2_mute",
+    "sp2_note"
+   ]
+  },
+  {
+   "label": "MULTI",
+   "keys": [
+    "mt_engine",
+    "mt_unote",
+    "vpm_preset",
+    "vpm_note",
+    "vpm_index",
+    "vpm_ratio",
+    "vpm_noise",
+    "vpm_eg",
+    "vpm_attack",
+    "vpm_release",
+    "vpm_idxmod",
+    "noise_algo",
+    "noise_color",
+    "noise_peak",
+    "noise_attack",
+    "noise_release",
+    "u_1",
+    "u_2",
+    "u_3",
+    "u_4",
+    "u_5",
+    "u_6",
+    "u_7",
+    "u_8",
+    "u_9",
+    "u_10",
+    "u_11",
+    "u_12",
+    "u_13",
+    "u_14",
+    "u_15",
+    "u_16",
+    "u_17",
+    "u_18",
+    "u_19",
+    "u_20",
+    "u_21",
+    "u_22",
+    "u_23",
+    "u_24",
+    "mt_level",
+    "mt_pan",
+    "mt_spread",
+    "mt_dly",
+    "mt_rev",
+    "mt_master",
+    "mt_sidech",
+    "mt_choke",
+    "mt_prio",
+    "mt_mute",
+    "mt_note"
+   ]
+  },
+  {
+   "label": "Delay",
+   "keys": [
+    "dly_type",
+    "dly_time",
+    "dly_div",
+    "dly_fb",
+    "dly_spread",
+    "dly_filter",
+    "dly_cutoff",
+    "dly_sat",
+    "dly_route",
+    "dly_mod",
+    "dly_tracking",
+    "dly_tone",
+    "dly_level",
+    "dly_return",
+    "dly_reverb"
+   ]
+  },
+  {
+   "label": "Reverb",
+   "keys": [
+    "rev_type",
+    "rev_time",
+    "rev_input",
+    "rev_bright",
+    "rev_rise",
+    "rev_dive",
+    "rev_level",
+    "rev_return"
+   ]
+  },
+  {
+   "label": "Master FX",
+   "keys": [
+    "mfx_type",
+    "comp_thresh",
+    "comp_attack",
+    "comp_release",
+    "comp_ratio",
+    "comp_makeup",
+    "comp_knee",
+    "comp_sidech",
+    "comp_wet",
+    "mf_mode",
+    "mf_saturate",
+    "mf_reson",
+    "mf_cutoff",
+    "boost_center",
+    "boost_width",
+    "boost_saturate",
+    "boost_gain",
+    "eq_low",
+    "eq_mid",
+    "eq_high",
+    "eq_gain",
+    "eq_lowmid",
+    "eq_midhigh",
+    "eq_slope",
+    "mfx_u1",
+    "mfx_u2",
+    "mfx_u3",
+    "mfx_u4",
+    "mfx_u5",
+    "mfx_u6"
+   ]
+  }
+ ]
+}
