@@ -23,6 +23,7 @@
 #include "parts/multi.h"
 #include "resampler.h"
 #include "rom/sample_rom.h"
+#include "ui_pages.h"
 
 namespace dlx {
 
@@ -86,6 +87,19 @@ void PartFilter::Format(float cutoff, char* buf, int len) {
 // ---------------------------------------------------------------------------------------------------------------
 struct Engine::Impl {
   float v[P_COUNT];
+  float e[P_COUNT];          // what the parts and effects hear: v with the macros applied (ApplyMacros)
+  // the screen (ui_pages.h): the page shown per selection, the pages of the current one, the knobs' targets
+  int ui_page[NUM_SEL];
+  int pages[kMaxPages][4];
+  int npages = 0;
+  int target[4] = {-1, -1, -1, -1};
+  int unit_slots = 0;
+  int last_unit = kNumBuiltinEngines;
+  // the machine's "parameter pop-up": a control turned on the panel shows on the screen's title for a moment
+  int touched = -1;
+  long touch_until = 0;
+  long blocks = 0;
+  bool restoring = false;   // a state restore: the selection must not switch the MULTI source
   Part* parts[NUM_PARTS];
   MultiPart* multi;
   MixIds mix[NUM_PARTS];
@@ -131,6 +145,8 @@ Engine::Engine(const char* data_dir) : d_(new Impl) {
   memset(s.chroma_held, 0, sizeof s.chroma_held);
   Keys();
   for (int i = 0; i < P_COUNT; ++i) s.v[i] = kParams[i].def;
+  memcpy(s.e, s.v, sizeof s.e);
+  memset(s.ui_page, 0, sizeof s.ui_page);
   char k[48];
   for (int p = 0; p < NUM_PARTS; ++p) {
     MixIds& m = s.mix[p];
@@ -148,9 +164,10 @@ Engine::Engine(const char* data_dir) : d_(new Impl) {
   for (int p = PART_CH; p <= PART_SP2; ++p) s.parts[p] = NewSamplePart();
   s.multi = NewMulti();
   s.parts[PART_MT] = s.multi;
-  for (int p = 0; p < NUM_PARTS; ++p) s.parts[p]->Init(&s.v[kSoundStart[p]], p, seed + 7919u * p);
+  for (int p = 0; p < NUM_PARTS; ++p) s.parts[p]->Init(&s.e[kSoundStart[p]], p, seed + 7919u * p);
   float defaults[kNumUnitSlots];
-  s.multi->EngineChanged(0, defaults);
+  s.unit_slots = s.multi->EngineChanged(0, defaults);
+  RefreshUi();
   s.dly.Init();
   s.rev.Init();
   s.mfx.Init();
@@ -168,6 +185,16 @@ float Engine::Value(int id) const { return id >= 0 && id < P_COUNT ? d_->v[id] :
 void Engine::SetValue(int id, float x) {
   Impl& s = *d_;
   if (id < 0 || id >= P_COUNT) return;
+  if (id >= P_P1 && id <= P_P4) { SetKnob(id - P_P1, x); return; }
+  if (id == P_PAGE_UP || id == P_PAGE_DOWN) {
+    if (x > 0.5f) {
+      int sel = (int)s.v[P_SEL];
+      int pg = s.ui_page[sel] + (id == P_PAGE_UP ? -1 : 1);
+      if (pg >= 0 && pg < s.npages) { s.ui_page[sel] = pg; RefreshUi(); }
+    }
+    s.v[id] = 0.0f;
+    return;
+  }
   const ParamInfo& pi = kParams[id];
   if (x != x) return;   // NaN
   x = Clamp(x, pi.min, pi.max);
@@ -179,7 +206,9 @@ void Engine::SetValue(int id, float x) {
     s.last_engine = (int)x;
     float defaults[kNumUnitSlots];
     s.parts[PART_MT]->Choke();
-    s.multi->EngineChanged(s.last_engine, defaults);
+    s.unit_slots = s.multi->EngineChanged(s.last_engine, defaults);
+    if (s.last_engine >= kNumBuiltinEngines) s.last_unit = s.last_engine;
+    s.changed[P_MT_ENGINE] = 1;
     for (int i = 0; i < kNumUnitSlots; ++i) {
       if (s.v[P_U_1 + i] != defaults[i]) s.changed[P_U_1 + i] = 1;
       s.v[P_U_1 + i] = defaults[i];
@@ -191,6 +220,75 @@ void Engine::SetValue(int id, float x) {
     if (id == s.mix[p].mute && x > 0.5f && old <= 0.5f) s.parts[p]->Choke();
   for (int p = PART_CH; p <= PART_SP2; ++p)
     if (id == kSoundStart[p] + PCM_SAMPLE || id == kSoundStart[p] + PCM_BANK) s.pend[p] = false;
+  if (id == P_SEL && (int)x != (int)old) {
+    // as PART + VPM / NOISE / USER on the machine: picking a MULTI source plays it
+    int sel = (int)x;
+    if (s.restoring) sel = -1;
+    if (sel == SEL_VPM) SetValue(P_MT_ENGINE, 0);
+    else if (sel == SEL_NOISE) SetValue(P_MT_ENGINE, 1);
+    else if (sel == SEL_USER && s.v[P_MT_ENGINE] < kNumBuiltinEngines) SetValue(P_MT_ENGINE, (float)s.last_unit);
+    RefreshUi();
+  } else if (id == P_MT_ENGINE || id == P_MFX_TYPE || id == P_DLY_TYPE) {
+    if (x != old) RefreshUi();
+  }
+  for (int k = 0; k < 4; ++k)   // a control the screen's knobs point at moved: their values follow
+    if (s.target[k] == id && x != old) { s.v[P_P1 + k] = Norm(id); s.changed[P_P1 + k] = 1; }
+}
+
+void Engine::UpperName(int id, char* buf, int len) const {
+  int i = 0;
+  for (const char* c = kParams[id].name; *c && i < len - 1; ++c) buf[i++] = (*c >= 'a' && *c <= 'z') ? *c - 32 : *c;
+  buf[i] = 0;
+}
+
+float Engine::Norm(int id) const {
+  const ParamInfo& pi = kParams[id];
+  return pi.max > pi.min ? (d_->v[id] - pi.min) / (pi.max - pi.min) : 0.0f;
+}
+
+// the selection's pages, the page shown, the four knobs' targets; tells the host what changed with them
+void Engine::RefreshUi() {
+  Impl& s = *d_;
+  int sel = (int)s.v[P_SEL];
+  if (sel < 0 || sel >= NUM_SEL) sel = 0;
+  s.npages = UiPages(sel, s.v, s.pages, s.unit_slots);
+  if (s.ui_page[sel] >= s.npages) s.ui_page[sel] = s.npages > 0 ? s.npages - 1 : 0;
+  for (int k = 0; k < 4; ++k) {
+    s.target[k] = s.npages > 0 ? s.pages[s.ui_page[sel]][k] : -1;
+    s.v[P_P1 + k] = s.target[k] >= 0 ? Norm(s.target[k]) : 0.0f;
+    s.changed[P_P1 + k] = 1;
+  }
+  // the wave screen's picture (tools/gen_params.py SCOPES)
+  int scope;
+  if (sel <= SEL_SP2) scope = sel;
+  else if (sel == SEL_VPM) scope = 10 + (int)s.v[P_VPM_PRESET];
+  else if (sel == SEL_NOISE) scope = 18 + (int)s.v[P_NOISE_ALGO];
+  else scope = 25 + (sel - SEL_USER);
+  if (s.v[P_SCOPE] != (float)scope) { s.v[P_SCOPE] = (float)scope; s.changed[P_SCOPE] = 1; }
+  s.changed[P_LCD_TITLE] = 1;
+  s.changed[P_LCD_PAGE] = 1;
+}
+
+// one of the four knobs under the screen: a small move steps an option list or a short whole-number range by one
+// (a Q-Link event or a wheel click), a bigger one sets the value outright
+void Engine::SetKnob(int k, float x) {
+  Impl& s = *d_;
+  int t = s.target[k];
+  if (t < 0) { s.v[P_P1 + k] = 0.0f; return; }
+  const ParamInfo& pi = kParams[t];
+  x = Clamp(x, 0.0f, 1.0f);
+  float span = pi.max - pi.min;
+  int steps = pi.num_opts ? pi.num_opts - 1 : (pi.whole ? (int)span : 0);
+  float cur = Norm(t);
+  float value = pi.min + x * span;
+  if (steps > 0 && steps <= 40) {
+    float d = x - cur;
+    if (fabsf(d) > 1e-5f && fabsf(d) <= 0.03f) value = s.v[t] + (d > 0 ? 1.0f : -1.0f) * (span / steps);
+  }
+  if (t == P_PANIC || t == P_RESCAN) { SetValue(t, x > 0.5f ? 1.0f : 0.0f); s.v[P_P1 + k] = 0.0f; return; }
+  SetValue(t, value);
+  s.v[P_P1 + k] = Norm(t);
+  s.changed[t] = 1;   // the kit knob or mixer control of the same parameter follows
 }
 
 void Engine::SetParam(const char* key, const char* val) {
@@ -219,8 +317,11 @@ void Engine::SetParam(const char* key, const char* val) {
       if (bits >= 8) { bits -= 8; bytes[nb++] = (uint8_t)(acc >> bits); }
     }
     int count = (int)(nb / 2);
+    s.restoring = true;
     for (int i = 0; i < P_COUNT; ++i) {
-      if (i == P_PANIC || i == P_RESCAN) continue;
+      // triggers and the screen's own values (derived from the selection) are not restored
+      if (i == P_PANIC || i == P_RESCAN || i == P_PAGE_UP || i == P_PAGE_DOWN || (i >= P_P1 && i <= P_P4) ||
+          i == P_LCD_TITLE || i == P_LCD_PAGE || i == P_SCOPE) continue;
       float x = kParams[i].def;   // params newer than the saved state keep their defaults
       if (i < count) {
         float u = (float)((bytes[2 * i] << 8) | bytes[2 * i + 1]) / 65535.0f;
@@ -228,6 +329,8 @@ void Engine::SetParam(const char* key, const char* val) {
       }
       SetValue(i, x);
     }
+    s.restoring = false;
+    RefreshUi();
     // user sample names
     while (end && *end == ';') {
       p = end + 1;
@@ -252,7 +355,16 @@ void Engine::SetParam(const char* key, const char* val) {
   }
   int id = Keys().Find(key);
   if (id < 0) return;
+  float old = s.v[id];
   SetValue(id, (float)atof(val));
+  bool ui = id >= P_SEL || id == P_PANIC || id == P_RESCAN;
+  bool on_screen = false;
+  for (int k = 0; k < 4; ++k) on_screen |= s.target[k] == id;
+  if (!ui && !on_screen && s.v[id] != old) {
+    s.touched = id;
+    s.touch_until = s.blocks + 260;   // ~1.5 s of 48 kHz blocks
+    s.changed[P_LCD_TITLE] = 1;
+  }
 }
 
 int Engine::GetParam(const char* key, char* buf, int len) {
@@ -301,6 +413,19 @@ int Engine::GetParam(const char* key, char* buf, int len) {
     memcpy(base, key, kl - 5);
     base[kl - 5] = 0;
     int id = Keys().Find(base);
+    if (id >= P_P1 && id <= P_P4) {
+      int t = s.target[id - P_P1];
+      if (t < 0) { snprintf(buf, len, "---"); return 1; }
+      if (t >= P_U_1 && t < P_U_1 + kNumUnitSlots) {
+        if (!s.multi->SlotName(t - P_U_1, buf, len) || !buf[0]) snprintf(buf, len, "---");
+      } else if (t >= P_MFX_U1 && t <= P_MFX_U6) {
+        const char* n = s.mfx.SlotName(t - P_MFX_U1, s.v);
+        snprintf(buf, len, "%s", n ? n : "---");
+      } else {
+        UpperName(t, buf, len);
+      }
+      return 1;
+    }
     if (id >= P_U_1 && id < P_U_1 + kNumUnitSlots) {
       if (!s.multi->SlotName(id - P_U_1, buf, len) || !buf[0]) snprintf(buf, len, "---");
       return 1;
@@ -319,6 +444,17 @@ int Engine::GetParam(const char* key, char* buf, int len) {
     base[kl - 8] = 0;
     int id = Keys().Find(base);
     if (id < 0) return 0;
+    if (id >= P_P1 && id <= P_P4) {
+      int t = s.target[id - P_P1];
+      if (t < 0) { snprintf(buf, len, " "); return 1; }
+      if (kParams[t].num_opts) {
+        snprintf(buf, len, "%s", kParams[t].opts[(int)s.v[t]]);
+        return 1;
+      }
+      char k2[56];
+      snprintf(k2, sizeof k2, "%s_display", kParams[t].key);
+      return GetParam(k2, buf, len);
+    }
     float x = s.v[id];
     const ParamInfo& pi = kParams[id];
     if (id >= P_U_1 && id < P_U_1 + kNumUnitSlots) {
@@ -350,9 +486,31 @@ int Engine::GetParam(const char* key, char* buf, int len) {
     }
     if (id == P_COMP_ATTACK || id == P_COMP_RELEASE) { snprintf(buf, len, "%.*fms", x < 10 ? 1 : 0, x); return 1; }
     if (id == P_COMP_RATIO) { snprintf(buf, len, "%.1f:1", x); return 1; }
+    if (id == P_PANIC || id == P_RESCAN) { snprintf(buf, len, "PUSH"); return 1; }
     if (pi.whole) { snprintf(buf, len, "%d", (int)x); return 1; }
     if (pi.min >= -100.0f && pi.max <= 100.0f && (pi.max == 100.0f)) { snprintf(buf, len, "%.0f%%", x); return 1; }
     snprintf(buf, len, "%.2f", x);
+    return 1;
+  }
+  if (!strcmp(key, "lcd_title")) {
+    if (s.touched >= 0 && s.blocks < s.touch_until) {
+      char name[32], val[40], k2[56];
+      UpperName(s.touched, name, sizeof name);
+      const char* part = "";
+      for (int p = 0; p < NUM_PARTS; ++p)
+        if (s.touched >= kSoundStart[p] && s.touched <= s.mix[p].note) part = kPartNames[p];
+      if (kParams[s.touched].num_opts) snprintf(val, sizeof val, "%s", kParams[s.touched].opts[(int)s.v[s.touched]]);
+      else { snprintf(k2, sizeof k2, "%s_display", kParams[s.touched].key); GetParam(k2, val, sizeof val); }
+      snprintf(buf, len, "%s%s%s  %s", part, *part ? " " : "", name, val);
+      return 1;
+    }
+    int sel = (int)s.v[P_SEL];
+    int en = (int)s.v[P_MT_ENGINE];
+    UiTitle(sel, s.v, kParams[P_MT_ENGINE].opts[en < 0 || en >= kParams[P_MT_ENGINE].num_opts ? 0 : en], buf, len);
+    return 1;
+  }
+  if (!strcmp(key, "lcd_page")) {
+    snprintf(buf, len, "%d/%d", s.ui_page[(int)s.v[P_SEL]] + 1, s.npages > 0 ? s.npages : 1);
     return 1;
   }
   int id = Keys().Find(key);
@@ -445,8 +603,37 @@ void Engine::Midi(const uint8_t* msg, int len) {
 }
 
 // ---------------------------------------------------------------------------------------------------------------
+// The four macros of the SCREEN page: offsets over the whole kit, applied to what the parts hear (s.e), never to the
+// saved values. DECAY lengthens/shortens every part, TUNE moves every part's pitch, FILTER pushes every part's
+// cutoff toward low-pass (left) or high-pass (right), SPACE adds delay and reverb send to every part.
+static void ApplyMacros(Engine::Impl& s) {
+  memcpy(s.e, s.v, sizeof s.e);
+  float dec = s.v[P_MACRO1] * 0.01f, tune = s.v[P_MACRO2] * 0.01f, filt = s.v[P_MACRO3], space = s.v[P_MACRO4] * 0.01f;
+  auto add = [&](int id, float d) { s.e[id] = Clamp(s.e[id] + d, kParams[id].min, kParams[id].max); };
+  if (dec != 0.0f) {
+    const int ids[] = {P_BD_DECAY, P_SD_DECAY, P_SD_SNAPDEC, P_LT_DECAY, P_HT_DECAY};
+    for (int id : ids) add(id, dec * 400.0f);
+    for (int p = PART_CH; p <= PART_SP2; ++p) add(kSoundStart[p] + PCM_DECAY, dec * 400.0f);
+  }
+  if (tune != 0.0f) {
+    const int ids[] = {P_BD_TUNE, P_SD_TUNE, P_LT_TUNE, P_HT_TUNE};
+    for (int id : ids) add(id, tune * 250.0f);
+    for (int p = PART_CH; p <= PART_SP2; ++p) add(kSoundStart[p] + PCM_TUNE, tune * 12.0f);
+  }
+  if (filt != 0.0f) {
+    const int ids[] = {P_BD_CUTOFF, P_SD_CUTOFF, P_LT_CUTOFF, P_HT_CUTOFF};
+    for (int id : ids) add(id, filt);
+    for (int p = PART_CH; p <= PART_SP2; ++p) add(kSoundStart[p] + PCM_CUTOFF, filt);
+  }
+  if (space > 0.0f)
+    for (int p = 0; p < NUM_PARTS; ++p) { add(s.mix[p].dly, space * 40.0f); add(s.mix[p].rev, space * 60.0f); }
+}
+
 static void Render48(Engine::Impl& s, float* out_l, float* out_r) {
   const int n = kBlock;
+  ++s.blocks;
+  if (s.touched >= 0 && s.blocks == s.touch_until) s.changed[P_LCD_TITLE] = 1;
+  ApplyMacros(s);
   memset(s.main_l, 0, sizeof s.main_l); memset(s.main_r, 0, sizeof s.main_r);
   memset(s.byp_l, 0, sizeof s.byp_l);   memset(s.byp_r, 0, sizeof s.byp_r);
   memset(s.dly_in_l, 0, sizeof s.dly_in_l); memset(s.dly_in_r, 0, sizeof s.dly_in_r);
@@ -473,7 +660,7 @@ static void Render48(Engine::Impl& s, float* out_l, float* out_r) {
     float th = (s.v[m.pan] + 100.0f) * (0.005f * kPi * 0.5f);
     float gl_t = fminf(1.0f, cosf(th) * 1.41421356f) * g;
     float gr_t = fminf(1.0f, sinf(th) * 1.41421356f) * g;
-    float dly_t = s.v[m.dly] * 0.01f, rev_t = s.v[m.rev] * 0.01f, sc_t = s.v[m.sidech] * 0.01f;
+    float dly_t = s.e[m.dly] * 0.01f, rev_t = s.e[m.rev] * 0.01f, sc_t = s.e[m.sidech] * 0.01f;
     if (!s.parts[p]->Active()) {   // silent: jump the ramps (nothing to click)
       r.gl = gl_t; r.gr = gr_t; r.dly = dly_t; r.rev = rev_t; r.sc = sc_t;
       continue;
@@ -532,15 +719,15 @@ static void Render48(Engine::Impl& s, float* out_l, float* out_r) {
   if (dt != s.last_dly_type) { s.dly.Clear(); s.last_dly_type = dt; }
   if (rt != s.last_rev_type) { s.rev.Clear(); s.last_rev_type = rt; }
   if (mt != s.last_mfx_type) { s.mfx.Clear(); s.last_mfx_type = mt; }
-  s.dly.Process(s.dly_in_l, s.dly_in_r, s.dly_out_l, s.dly_out_r, n, s.v, s.bpm);
+  s.dly.Process(s.dly_in_l, s.dly_in_r, s.dly_out_l, s.dly_out_r, n, s.e, s.bpm);
   float to_rev = s.v[P_DLY_REVERB] * 0.01f;
   if (to_rev > 0.0f)
     for (int i = 0; i < n; ++i) { s.rev_in_l[i] += s.dly_out_l[i] * to_rev; s.rev_in_r[i] += s.dly_out_r[i] * to_rev; }
-  s.rev.Process(s.rev_in_l, s.rev_in_r, s.rev_out_l, s.rev_out_r, n, s.v);
+  s.rev.Process(s.rev_in_l, s.rev_in_r, s.rev_out_l, s.rev_out_r, n, s.e);
   bool dly_pre = s.v[P_DLY_RETURN] < 0.5f, rev_pre = s.v[P_REV_RETURN] < 0.5f;
   if (dly_pre) for (int i = 0; i < n; ++i) { s.main_l[i] += s.dly_out_l[i]; s.main_r[i] += s.dly_out_r[i]; }
   if (rev_pre) for (int i = 0; i < n; ++i) { s.main_l[i] += s.rev_out_l[i]; s.main_r[i] += s.rev_out_r[i]; }
-  s.mfx.Process(s.main_l, s.main_r, s.key, n, s.v);
+  s.mfx.Process(s.main_l, s.main_r, s.key, n, s.e);
 
   float vol = s.v[P_VOLUME] * (1.0f / 80.0f);
   vol *= vol;

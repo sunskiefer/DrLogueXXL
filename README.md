@@ -1,4 +1,4 @@
-# DrLogueXXL v0.1.0 (sound engine; UI in progress)
+# DrLogueXXL v0.2.0
 
 **A drumlogue-style hybrid drum machine running natively inside MPC OS on the Akai Force.**
 
@@ -8,9 +8,34 @@ a master effect with sidechain. It is not a port of Korg firmware: the analogue 
 here, the factory samples are synthesised, and the MULTI part hosts open-source logue SDK synth units.
 
 > [!NOTE]
-> **Status: 0.1.0, offline only.** The engine passes its tests on x86 (ASan + UBSan, mpc-vst-plugins host test) and
-> on the armv7 build under QEMU. It has not run on a Force yet. The skin is a temporary auto-generated test layout;
-> the real UI comes next.
+> **Status: 0.2.0.** The sound engine (0.1.0) has been played on an Akai Force. The 0.2.0 panel passes the
+> mpc-vst-plugins host test and skin check offline and is not yet tried on the device. Report anything odd under
+> [Issues](../../issues).
+
+![The PERFORM page](docs/img/perform.png)
+
+## The three pages
+
+- **PERFORM**: laid out like the machine. The kit knobs in five sections (BASS DRUM, SNARE DRUM, TOMS, HIGH HATS +
+  CLAP, SAMPLE 1/2; **SHIFT** turns TOMS to the high tom and SAMPLE 1/2 to sample 2, the grey labels), the screen with
+  the selected part's page (title, page number, four parameters) and its four knobs, **PAGE** up/down, **VOLUME**,
+  **GLOBAL** (note map, velocity, limiter, rescan, panic) and the 16 keys: BD to SP 2, VPM, NOISE, USER, DELAY, REVERB,
+  MASTER, with their LEDs. Picking VPM or NOISE plays that MULTI source; USER goes back to your last unit. Turning a
+  kit knob shows it on the screen for a moment, like the machine's parameter pop-up.
+- **MIXER**: eleven strips (PAN, DELAY and REVERB sends, the level fader, MUTE) and MASTER (VOLUME fader, limiter
+  DRIVE and CEILING, PANIC).
+- **SCREEN**: the screen, big: a wave picture of the selection over its four parameters, and four macros over the
+  whole kit: **DECAY** (all parts shorter / longer), **TUNE** (all pitches down / up), **FILTER** (every part's cutoff
+  toward low-pass or high-pass), **SPACE** (more delay and reverb on every part). Macros never change saved values.
+
+| | |
+| --- | --- |
+| ![MIXER](docs/img/mixer.png) | ![SCREEN](docs/img/screen.png) |
+
+The panel is a collage in the machine's look (black brushed panel, ash wood ends, grey caps, square keys with red
+LEDs) with the faders of LXRXXL ZYNTH. Printed labels are Barlow Semi Condensed (OFL); MPC draws the live text.
+Q-Links: PERFORM has KIT (the 15 kit knobs + volume) and SCREEN (the four knobs, the selection, shift, the shifted
+knobs); MIXER has LEVEL, PAN, DELAY, REVERB and MUTE; SCREEN has the macros and the four knobs.
 
 ## The parts
 

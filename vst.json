@@ -2,7 +2,7 @@
   "name": "DrLogueXXL",
   "vendor": "L'Cronx",
   "uid": "AnDl",
-  "version": 1000,
+  "version": 2000,
   "so": "drloguexxl.so",
   "params": "params.json",
   "build": {
@@ -10,6 +10,7 @@
     "sources": [
       "src/vst_glue.cc",
       "src/dlx_engine.cc",
+      "src/ui_pages.cc",
       "src/parts/bd.cc",
       "src/parts/sd.cc",
       "src/parts/tom.cc",
@@ -58,10 +59,10 @@
       "-lpthread"
     ]
   },
-  "title_font": "art/fonts/TitilliumWeb-SemiBold.ttf",
   "defines": {
     "HAS_LFO_BPM": 1,
-    "MODULE_SUBDIR": "\"Samples\""
+    "MODULE_SUBDIR": "\"Samples\"",
+    "PARAM_TEXT_MAX": 40
   },
   "layout": "layout.conf"
 }

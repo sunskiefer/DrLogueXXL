@@ -223,7 +223,8 @@ int main() {
     b.SetParam("state", st);
     int bad = 0;
     for (int i = 0; i < P_COUNT; ++i) {
-      if (i == P_PANIC || i == P_RESCAN) continue;
+      if (i == P_PANIC || i == P_RESCAN || (i >= P_P1 && i <= P_P4) || i == P_SCOPE || i == P_PAGE_UP || i == P_LCD_TITLE || i == P_LCD_PAGE ||
+          i == P_PAGE_DOWN) continue;
       float tol = (kParams[i].max - kParams[i].min) / 30000.0f + 1e-6f;
       if (fabsf(a.Value(i) - b.Value(i)) > tol) {
         if (bad++ < 5) printf("  state mismatch %s: %g vs %g\n", kParams[i].key, a.Value(i), b.Value(i));
@@ -279,6 +280,55 @@ int main() {
     }
     printf("sweep: worst peak %.3f%s\n", worst, nan ? " NaN!" : "");
     CHECK(!nan, "NaN during the parameter sweep");
+  }
+
+  // ---- the screen: every selection's pages, knob names/values, stepping, the pop-up --------------------------------
+  {
+    Engine u("test/out/engine_samples");
+    for (int sel = 0; sel < 17; ++sel) {
+      Set(u, "sel", sel);
+      int pages = 0;
+      for (int pg = 0; pg < 12; ++pg) {
+        std::string page = Text(u, "lcd_page");
+        if (pg == 0) printf("screen %-22s %s:", Text(u, "lcd_title").c_str(), page.c_str());
+        printf(" [%s=%s %s=%s %s=%s %s=%s]", Text(u, "p1_name").c_str(), Text(u, "p1_display").c_str(),
+               Text(u, "p2_name").c_str(), Text(u, "p2_display").c_str(), Text(u, "p3_name").c_str(),
+               Text(u, "p3_display").c_str(), Text(u, "p4_name").c_str(), Text(u, "p4_display").c_str());
+        ++pages;
+        std::string before = page;
+        Set(u, "page_down", 1);
+        if (Text(u, "lcd_page") == before) break;
+      }
+      printf("\n");
+      CHECK(pages >= 1, "selection %d has no page", sel);
+      for (int pg = 0; pg < 12; ++pg) Set(u, "page_up", 1);
+    }
+    // the knobs: BD page 2 knob 1 is TRANSIENT (16 options): a Q-Link-sized nudge steps one option
+    Set(u, "sel", 0);
+    Set(u, "page_down", 1);
+    double t0 = Get(u, "bd_transient");
+    double n0 = Get(u, "p1");
+    Set(u, "p1", n0 + 1.0 / 128);
+    CHECK(Get(u, "bd_transient") == t0 + 1, "p1 nudge did not step the option (%g -> %g)", t0, Get(u, "bd_transient"));
+    Set(u, "p1", 1.0);
+    CHECK(Get(u, "bd_transient") == 15, "p1 jump did not set the option");
+    // picking VPM / NOISE plays that MULTI source; USER goes back to the last unit
+    Set(u, "sel", 11);
+    CHECK(Get(u, "mt_engine") == 1, "NOISE key did not select NOISE");
+    Set(u, "sel", 12);
+    CHECK(Get(u, "mt_engine") >= 2, "USER key did not select a unit");
+    // the pop-up: a kit knob shows on the title for a moment
+    Set(u, "sel", 15);
+    Set(u, "bd_decay", 777);
+    std::string pop = Text(u, "lcd_title");
+    printf("pop-up: '%s'\n", pop.c_str());
+    CHECK(pop.find("DECAY") != std::string::npos, "no pop-up for a kit knob");
+    Play(u, 300, [](int) {});
+    CHECK(Text(u, "lcd_title").find("MASTER") == 0, "pop-up did not go away (%s)", Text(u, "lcd_title").c_str());
+    // macros don't touch the saved values
+    Set(u, "macro1", 100);
+    Play(u, 4, [](int) {});
+    CHECK(Get(u, "bd_decay") == 777, "macro changed a saved value");
   }
 
   // ---- cost: a busy groove, per 128-frame block -------------------------------------------------------------------

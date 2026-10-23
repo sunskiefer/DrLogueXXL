@@ -26,6 +26,10 @@ class Engine {
   void Panic();
   struct Impl;   // engine.cc only
  private:
+  float Norm(int id) const;     // a parameter's value 0..1 in its range
+  void RefreshUi();             // the screen's pages and knob targets after the selection (or a type) changed
+  void SetKnob(int k, float x); // one of the four knobs under the screen
+  void UpperName(int id, char* buf, int len) const;
   Impl* d_;
   Engine(const Engine&);
   Engine& operator=(const Engine&);

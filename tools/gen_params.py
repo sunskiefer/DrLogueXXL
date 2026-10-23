@@ -200,6 +200,29 @@ P += [{"key": "panic", "name": "Panic", "min": 0.0, "max": 1.0, "default": 0.0, 
       {"key": "rescan", "name": "Rescan", "min": 0.0, "max": 1.0, "default": 0.0, "momentary": True,
        "type": "trigger"}]
 
+# ---- 0.2.0: the panel (src/ui_pages.cc) ------------------------------------------------------------------------
+# SEL: the 16 part / effect keys of the PERFORM page (what the screen and its four knobs edit), as on the machine.
+# P1..P4: the four knobs under the screen; their names and values come from the selected page's parameters.
+SEL = ["BD", "SD", "LT", "HT", "CH", "OH", "RS", "CP", "SP 1", "SP 2", "VPM", "NOISE", "USER", "DELAY", "REVERB",
+       "MASTER", "GLOBAL"]
+# the wave screen: one picture per entry (tools/ui.py draws them), picked by the engine from the selection
+SCOPES = ["BD", "SD", "LT", "HT", "CH", "OH", "RS", "CP", "SP 1", "SP 2"] + \
+         ["VPM %d" % (i + 1) for i in range(8)] + ["NOISE %d" % (i + 1) for i in range(7)] + \
+         ["USER", "DELAY", "REVERB", "MASTER", "GLOBAL"]
+P += [opts("sel", "Part", SEL, 0, refresh_display=True),
+      opts("shift", "Shift", OFF_ON, 0),
+      {"key": "page_up", "name": "Page Up", "min": 0.0, "max": 1.0, "default": 0.0, "momentary": True,
+       "type": "trigger", "refresh_display": True},
+      {"key": "page_down", "name": "Page Down", "min": 0.0, "max": 1.0, "default": 0.0, "momentary": True,
+       "type": "trigger", "refresh_display": True}]
+P += [knob("p%d" % (i + 1), "Param %d" % (i + 1), 0, 1, 0, dynamic_name=True) for i in range(4)]
+P += [{"key": "lcd_title", "name": "Screen", "display": "string", "min": 0.0, "max": 1.0, "default": 0.0},
+      {"key": "lcd_page", "name": "Screen Page", "display": "string", "min": 0.0, "max": 1.0, "default": 0.0}]
+# the four macros of the SCREEN page: offsets over the whole kit (src/dlx_engine.cc ApplyMacros)
+P += [knob("macro1", "Decay", -100, 100, 0), knob("macro2", "Tune", -100, 100, 0),
+      knob("macro3", "Filter", -100, 100, 0), knob("macro4", "Space", 0, 100, 0)]
+P += [opts("scope", "Scope", SCOPES, 0)]
+
 keys = [p["key"] for p in P]
 assert len(keys) == len(set(keys)), "duplicate key"
 
@@ -228,7 +251,7 @@ def write():
     h += ["  P_COUNT = %d" % len(P), "};", ""]
     h.append("// key, min, max, default, option count (0 = continuous), whole number")
     h.append("struct ParamInfo { const char* key; float min, max, def; int num_opts; bool whole; "
-             "const char* const* opts; };")
+             "const char* const* opts; const char* name; };")
     lists = {}
     for p in P:
         if "options" in p:
@@ -239,10 +262,12 @@ def write():
     for p in P:
         if "options" in p:
             n = len(p["options"])
-            h.append('  {"%s", 0, %d, %d, %d, true, %s},' % (p["key"], n - 1, p.get("default", 0), n, lists[p["key"]]))
+            h.append('  {"%s", 0, %d, %d, %d, true, %s, %s},' % (p["key"], n - 1, p.get("default", 0), n, lists[p["key"]],
+                                                         json.dumps(p["name"])))
         else:
-            h.append('  {"%s", %r, %r, %r, 0, %s, nullptr},' % (
-                p["key"], p["min"], p["max"], p.get("default", p["min"]), "true" if p.get("whole") else "false"))
+            h.append('  {"%s", %r, %r, %r, 0, %s, nullptr, %s},' % (
+                p["key"], p["min"], p["max"], p.get("default", p["min"]), "true" if p.get("whole") else "false",
+                json.dumps(p["name"])))
     h.append("};")
     h.append("")
     # per-part blocks: the offset of each mix/sound key relative to the part's first sound key is the same for

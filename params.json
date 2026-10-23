@@ -2919,6 +2919,181 @@
    "default": 0.0,
    "momentary": true,
    "type": "trigger"
+  },
+  {
+   "key": "sel",
+   "name": "Part",
+   "options": [
+    "BD",
+    "SD",
+    "LT",
+    "HT",
+    "CH",
+    "OH",
+    "RS",
+    "CP",
+    "SP 1",
+    "SP 2",
+    "VPM",
+    "NOISE",
+    "USER",
+    "DELAY",
+    "REVERB",
+    "MASTER",
+    "GLOBAL"
+   ],
+   "default": 0,
+   "refresh_display": true
+  },
+  {
+   "key": "shift",
+   "name": "Shift",
+   "options": [
+    "Off",
+    "On"
+   ],
+   "default": 0
+  },
+  {
+   "key": "page_up",
+   "name": "Page Up",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "momentary": true,
+   "type": "trigger",
+   "refresh_display": true
+  },
+  {
+   "key": "page_down",
+   "name": "Page Down",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "momentary": true,
+   "type": "trigger",
+   "refresh_display": true
+  },
+  {
+   "key": "p1",
+   "name": "Param 1",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "p2",
+   "name": "Param 2",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "p3",
+   "name": "Param 3",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "p4",
+   "name": "Param 4",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0,
+   "dynamic_display": true,
+   "dynamic_name": true
+  },
+  {
+   "key": "lcd_title",
+   "name": "Screen",
+   "display": "string",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0
+  },
+  {
+   "key": "lcd_page",
+   "name": "Screen Page",
+   "display": "string",
+   "min": 0.0,
+   "max": 1.0,
+   "default": 0.0
+  },
+  {
+   "key": "macro1",
+   "name": "Decay",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "macro2",
+   "name": "Tune",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "macro3",
+   "name": "Filter",
+   "min": -100.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "macro4",
+   "name": "Space",
+   "min": 0.0,
+   "max": 100.0,
+   "default": 0.0,
+   "dynamic_display": true
+  },
+  {
+   "key": "scope",
+   "name": "Scope",
+   "options": [
+    "BD",
+    "SD",
+    "LT",
+    "HT",
+    "CH",
+    "OH",
+    "RS",
+    "CP",
+    "SP 1",
+    "SP 2",
+    "VPM 1",
+    "VPM 2",
+    "VPM 3",
+    "VPM 4",
+    "VPM 5",
+    "VPM 6",
+    "VPM 7",
+    "VPM 8",
+    "NOISE 1",
+    "NOISE 2",
+    "NOISE 3",
+    "NOISE 4",
+    "NOISE 5",
+    "NOISE 6",
+    "NOISE 7",
+    "USER",
+    "DELAY",
+    "REVERB",
+    "MASTER",
+    "GLOBAL"
+   ],
+   "default": 0
   }
  ],
  "sections": [

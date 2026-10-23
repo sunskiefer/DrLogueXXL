@@ -12,7 +12,11 @@ python3 tools/gen_params.py
 mkdir -p build/host build/arm
 [ -x build/host/shadow_art ] || gcc -O2 -w -I"$MPC_VST/tools/vendor/force-shadow/tools" -x c -o build/host/shadow_art "$MPC_VST/tools/shadow_art.c" -lm
 rm -rf build/skin
-SHADOW_TITLE_FONT="$PWD/art/fonts/TitilliumWeb-SemiBold.ttf" SHADOW_ART="$PWD/build/host/shadow_art" python3 "$MPC_VST/tools/gen_vst.py" vst.json
+python3 tools/ui.py --write
+SHADOW_TITLE_FONT="$PWD/art/fonts/TitilliumWeb-SemiBold.ttf" SHADOW_ART="$PWD/build/host/shadow_art" python3 "$MPC_VST/tools/gen_vst.py" vst.json 2>&1 \
+  | grep -v -e "TOUCH" -e "EDGE" || true
+[ -f "build/skin/$NAME/Plugin Skins/TUI.json" ]
+python3 tools/ui.py "build/skin/$NAME/Plugin Skins"                # every control of the three pages, from the panel art
 SRCS=$(python3 -c "import json; print(' '.join(json.load(open('vst.json'))['build']['sources']))")
 CFLAGS=$(python3 -c "import json; print(' '.join(json.load(open('vst.json'))['build']['cflags']))")
 TGT="-target arm-linux-gnueabihf.2.31 -mcpu=generic+v7a+vfp3d16-d32-neon+thumb2 -ffp-contract=off"
